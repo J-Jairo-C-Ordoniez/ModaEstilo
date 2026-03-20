@@ -1,9 +1,6 @@
-import { Header } from "../components/ui/Header";
-import { Footer } from "../components/ui/Footer";
-import { FilterBar } from "../modules/catalog/components/FilterBar";
-import { ProductGrid } from "../modules/catalog/components/ProductGrid";
-import { Pagination } from "../modules/catalog/components/Pagination";
-import { products } from "../modules/catalog/data/products";
+import Header from "../components/landing/header/Header";
+import Main from "../components/landing/main/Main";
+import { Footer } from "../components/landing/footer/Footer";
 
 export const metadata = {
   title: "Moda y Estilo",
@@ -14,13 +11,7 @@ export default function Home() {
   return (
     <>
       <Header />
-
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 mt-12">
-        <FilterBar />
-        <ProductGrid products={products} />
-        <Pagination />
-      </main>
-
+      <Main />
       <Footer />
     </>
   );

@@ -6,11 +6,11 @@ const useBreadcrumbsStore = create((set) => ({
     breadcrumbs: [
         {
             label: levelMain,
-            isAbsolute: false,
+            active: false,
         },
         {
             label: "mujer",
-            isAbsolute: true,
+            active: true,
         }
     ],
 
@@ -19,11 +19,11 @@ const useBreadcrumbsStore = create((set) => ({
             breadcrumbs: [
                 {
                     label: levelMain,
-                    isAbsolute: false,
+                    active: false,
                 },
                 {
                     label: route,
-                    isAbsolute: true,
+                    active: true,
                 }
             ]
         })
@@ -34,19 +34,19 @@ const useBreadcrumbsStore = create((set) => ({
             breadcrumbs: [
                 {
                     label: levelMain,
-                    isAbsolute: false,
+                    active: false,
                 },
                 {
                     label: route,
-                    isAbsolute: false,
+                    active: false,
                 },
                 {
                     label: product,
-                    isAbsolute: false,
+                    active: false,
                 },
                 {
                     label: variant,
-                    isAbsolute: true,
+                    active: true,
                 }
             ]
         })
