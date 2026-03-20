@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+// --- ENUMS ---
+
+enum CodeType {
+  verify
+  reset
+}
+
+enum Gender {
+  hombre
+  mujer
+  mixto
+}
+
+// --- MODELOS ---
+
+model AboutUs {
+  aboutId   Int      @id @default(autoincrement()) @unique
+  logo      String?  @db.VarChar(255)
+  photo     String?  @db.VarChar(255)
+  content   Json
+  contact   String   @db.Char(10)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("about_us")
+}
+
+model Policy {
+  policyId  Int      @id @default(autoincrement()) @unique
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("policies")
+}
+
+model User {
+  userId     Int      @id @default(autoincrement()) @unique
+  name       String   @db.VarChar(100)
+  email      String   @unique @db.VarChar(50)
+  password   String   @db.VarChar(255)
+  avatar     String?  @db.VarChar(255)
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  codes      Code[]
+
+  @@map("users")
+}
+
+model Code {
+  codeId    Int      @id @default(autoincrement()) @unique
+  code      String   @db.VarChar(255)
+  type      CodeType
+  deadLine  DateTime @db.Date
+  userId    Int      
+  user      User     @relation(fields: [userId], references: [userId])
+  createdAt DateTime @default(now())
+
+  @@map("codes")
+}
+
+model Category {
+  categoryId Int       @id @default(autoincrement()) @unique
+  name       String    @db.VarChar(50)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  products   Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  productId   Int       @id @default(autoincrement()) @unique
+  categoryId  Int       
+  category    Category  @relation(fields: [categoryId], references: [categoryId])
+  name        String    @db.VarChar(50)
+  description String    @db.Text
+  gender      Gender
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  variants    Variant[]
+
+  @@map("products")
+}
+
+model Variant {
+  variantId       Int              @id @default(autoincrement()) @unique
+  productId       Int              
+  product         Product          @relation(fields: [productId], references: [productId])
+  sku             String           @unique @db.VarChar(50)
+  color           String           @db.VarChar(20)
+  size            String           @db.VarChar(5)
+  price           Decimal          @db.Decimal(13, 2)
+  popularity      Int              @default(0)
+  isActive        Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  inventories     Inventory[]
+  images          Image[]
+  sales           Sale[]
+  purchaseIntents PurchaseIntent[]
+
+  @@map("variants")
+}
+
+model Inventory {
+  inventoryId Int      @id @default(autoincrement()) @unique
+  variantId   Int      
+  variant     Variant  @relation(fields: [variantId], references: [variantId])
+  stock       Int      
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("inventories")
+}
+
+model Image {
+  imageId   Int      @id @default(autoincrement()) @unique
+  variantId Int      
+  variant   Variant  @relation(fields: [variantId], references: [variantId])
+  content   String   @db.VarChar(255)
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("images")
+}
+
+model Sale {
+  saleId        Int      @id @default(autoincrement()) @unique
+  variantId     Int      
+  variant       Variant  @relation(fields: [variantId], references: [variantId])
+  amount        Int      
+  total         Decimal  @db.Decimal(13, 2)
+  paymentMethod String   @db.VarChar(100)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("sales")
+}
+
+model PurchaseIntent {
+  purchaseIntentId Int      @id @default(autoincrement()) @unique
+  variantId        Int      
+  variant          Variant  @relation(fields: [variantId], references: [variantId])
+  amount           Int      
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("purchase_intents")
+}

@@ -97,5 +97,4 @@ Desarrollado por:
 Proyecto creado como parte de portafolio profesional y solución real para negocio local.
 
 ## Licencia
-
 Este proyecto está bajo licencia MIT.
