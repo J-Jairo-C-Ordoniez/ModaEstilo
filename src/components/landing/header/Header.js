@@ -1,12 +1,14 @@
 'use client';
 
 import useBreadcrumbsStore from '../../../store/breadcrumbs';
+import useFilterCatalogStore from '../../../store/filterCatalog';
 import Link from 'next/link';
 import NavLeft from './ui/NavLeft';
 import NavRight from './ui/NavRight';
 
 export default function Header() {
   const { breadcrumbs, setBreadcrumbsRoute } = useBreadcrumbsStore();
+  const { setGender } = useFilterCatalogStore();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background font-sans">
@@ -15,6 +17,7 @@ export default function Header() {
         <NavLeft
           breadcrumbs={breadcrumbs}
           setBreadcrumbsRoute={setBreadcrumbsRoute}
+          setGender={setGender}
         />
 
         <div className="absolute left-1/2 -translate-x-1/2">

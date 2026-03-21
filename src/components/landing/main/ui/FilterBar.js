@@ -5,23 +5,41 @@ import { FilterDropdown } from './FilterDropdown';
 import useFilterCatalogStore from '../../../../store/filterCatalog';
 
 export default function FilterBar() {
-  const { color, category, setColor, setCategory } = useFilterCatalogStore();
+  const { setColor, setCategory } = useFilterCatalogStore();
+  const [colorOptions, setColorOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
 
-  const [colorOptions, setColorOptions] = useState([
-    { id: 'negro', label: 'Negro', checked: false },
-    { id: 'blanco', label: 'Blanco', checked: false },
-    { id: 'azul', label: 'Azul', checked: false },
-    { id: 'beige', label: 'Beige', checked: true },
-    { id: 'cafe', label: 'Café', checked: false },
-  ]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/catalog?action=categories');
+        const json = await res.json();
+        if (json.success) {
+          setCategoryOptions(json.data.map(cat => ({ ...cat, checked: false })));
+        }
+      } catch (err) {
+        setCategoryOptions([]);
+      }
+    };
 
-  const [categoryOptions, setCategoryOptions] = useState([
-    { id: 'camisetas', label: 'Camisetas', checked: true },
-    { id: 'pantalones', label: 'Pantalones', checked: false },
-    { id: 'sudaderas', label: 'Sudaderas', checked: false },
-    { id: 'suertes', label: 'Suertes', checked: true },
-    { id: 'gorras', label: 'Gorras', checked: false },
-  ]);
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchColors = async () => {
+      try {
+        const res = await fetch('/api/catalog?action=colors');
+        const json = await res.json();
+        if (json.success) {
+          setColorOptions(json.data.map(color => ({ ...color, checked: false })));
+        }
+      } catch (err) {
+        setColorOptions([]);
+      }
+    };
+
+    fetchColors();
+  }, []);
 
   useEffect(() => {
     setColor(colorOptions.filter(opt => opt.checked));
@@ -31,7 +49,8 @@ export default function FilterBar() {
     setCategory(categoryOptions.filter(opt => opt.checked));
   }, [categoryOptions]);
 
-  console.log(color, category)
+  console.log(colorOptions);
+  console.log(categoryOptions);
 
   return (
     <section className="w-full py-2">

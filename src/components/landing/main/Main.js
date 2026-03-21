@@ -10,7 +10,7 @@ export default function Main() {
     const { breadcrumbs, setBreadcrumbsRoute } = useBreadcrumbsStore();
 
     return (
-        <main className="bg-background w-full">
+        <main className="bg-background w-full min-h-screen">
             <div className="container mx-auto p-4 md:p-8 flex flex-col justify-between">
                 <Breadcrumbs
                     breadcrumbs={breadcrumbs}
@@ -20,7 +20,7 @@ export default function Main() {
                 <div>
                     <FilterBar />
                     <ProductGrid />
-                    <Pagination />
+                    {/* <Pagination /> */}
                 </div>
             </div>
         </main>

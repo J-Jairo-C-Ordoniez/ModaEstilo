@@ -21,7 +21,7 @@ export function FilterDropdown({ title, options, setOptions, align = 'left' }) {
 
     const handleCheckboxChange = (id) => {
         const newOptions = options.map(opt => 
-            opt.id === id ? { ...opt, checked: !opt.checked } : opt
+            (opt.categoryId || opt.id) === id ? { ...opt, checked: !opt.checked } : opt
         );
         setOptions(newOptions);
     };
@@ -39,8 +39,8 @@ export function FilterDropdown({ title, options, setOptions, align = 'left' }) {
             {isOpen && (
                 <div className={`absolute top-full mt-4 w-44 bg-foreground rounded-md py-4 px-5 z-50 ${align === 'right' ? 'right-0' : 'left-0'}`}>
                     <div className="flex flex-col gap-3">
-                        {options.map((option) => (
-                            <label key={option.id} className="flex items-center gap-3 cursor-pointer group select-none">
+                        {options && options.length > 0 ? options.map((option) => (
+                            <label key={option.categoryId || option.id} className="flex items-center gap-3 cursor-pointer group select-none">
                                 <div className={`w-[14px] h-[14px] border rounded-[3px] flex items-center justify-center bg-transparent transition-colors ${option.checked ? 'border-primary' : 'border-secondary'}`}>
                                     {option.checked && (
                                         <svg className="w-3 h-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -52,13 +52,17 @@ export function FilterDropdown({ title, options, setOptions, align = 'left' }) {
                                     type="checkbox" 
                                     className="hidden" 
                                     checked={option.checked}
-                                    onChange={() => handleCheckboxChange(option.id)}
+                                    onChange={() => handleCheckboxChange(option.categoryId || option.id)}
                                 />
                                 <span className={`text-xs tracking-wide ${option.checked ? 'text-primary font-bold' : 'text-secondary font-medium'} group-hover:text-primary transition-colors`}>
-                                    {option.label}
+                                    {option.name}
                                 </span>
                             </label>
-                        ))}
+                        )) : (
+                            <p className="text-xs tracking-wide text-secondary font-medium text-center">
+                                No hay opciones disponibles
+                            </p>
+                        )}
                     </div>
                 </div>
             )}

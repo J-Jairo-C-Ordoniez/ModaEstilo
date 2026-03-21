@@ -6,10 +6,12 @@ const useBreadcrumbsStore = create((set) => ({
     breadcrumbs: [
         {
             label: levelMain,
+            isLink: false,
             active: false,
         },
         {
             label: "mujer",
+            isLink: true,
             active: true,
         }
     ],
@@ -19,10 +21,12 @@ const useBreadcrumbsStore = create((set) => ({
             breadcrumbs: [
                 {
                     label: levelMain,
+                    isLink: false,
                     active: false,
                 },
                 {
                     label: route,
+                    isLink: true,
                     active: true,
                 }
             ]
@@ -34,18 +38,22 @@ const useBreadcrumbsStore = create((set) => ({
             breadcrumbs: [
                 {
                     label: levelMain,
+                    isLink: false,
                     active: false,
                 },
                 {
                     label: route,
+                    isLink: true,
                     active: false,
                 },
                 {
                     label: product,
+                    isLink: false,
                     active: false,
                 },
                 {
                     label: variant,
+                    isLink: true,
                     active: true,
                 }
             ]
