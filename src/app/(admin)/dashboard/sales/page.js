@@ -4,12 +4,22 @@ import { SalesClient } from './SalesClient';
 export const dynamic = 'force-dynamic';
 
 export default async function SalesPage() {
-  const sales = await prisma.sale.findMany({
-    orderBy: { createdAt: 'desc' },
-    include: {
-      variant: { include: { product: true } }
-    }
-  });
+  const [sales, variants] = await Promise.all([
+    prisma.sale.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        variant: { include: { product: true } }
+      }
+    }),
+    prisma.variant.findMany({
+      where: { isActive: true },
+      include: { 
+        product: true,
+        inventories: true
+      },
+      orderBy: { product: { name: 'asc' } }
+    })
+  ]);
 
   return (
     <div className="space-y-6 pt-2">
@@ -20,7 +30,7 @@ export default async function SalesPage() {
         </p>
       </div>
       <div className="rounded-xl overflow-hidden" style={{ backgroundColor: 'var(--dash-bg-card)', border: '1px solid var(--dash-border)' }}>
-        <SalesClient initialSales={sales} />
+        <SalesClient initialSales={sales} variants={variants} />
       </div>
     </div>
   );
