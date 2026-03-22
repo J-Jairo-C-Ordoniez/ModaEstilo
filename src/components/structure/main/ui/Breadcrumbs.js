@@ -1,6 +1,6 @@
 export default function Breadcrumbs({ breadcrumbs, setBreadcrumbsRoute }) {
     return (
-        <div className="flex items-center gap-1 text-xs font-semibold tracking-wider py-2">
+        <div className="w-full flex items-center gap-1 text-xs font-semibold tracking-wider py-2">
             {breadcrumbs.map((breadcrumb, index) => (
                 breadcrumb.isLink ? (
                     <button

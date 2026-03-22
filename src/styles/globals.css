@@ -18,6 +18,113 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: #f5f5f5;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* =============================================
+   DASHBOARD SCOPED DESIGN SYSTEM
+   Light aesthetic matching the landing page
+   ============================================= */
+.dashboard-scope {
+  /* Base colors — matches landing's #f5f5f5 bg */
+  --dash-bg: #f5f5f5;
+  --dash-bg-card: #ffffff;
+  --dash-bg-sidebar: #ffffff;
+  --dash-bg-muted: #ececec;
+  --dash-bg-muted-hover: #e2e2e2;
+  --dash-border: #e0e0e0;
+
+  /* Text colors — matches landing #1a1a1a / #6b6b6b */
+  --dash-text: #1a1a1a;
+  --dash-text-muted: #6b6b6b;
+  --dash-text-strong: #0d0d0d;
+
+  /* Primary accent — keeps structured identity, good on light bg */
+  --dash-primary: #1a1a1a;
+  --dash-primary-hover: #333333;
+  --dash-primary-subtle: rgba(26, 26, 26, 0.07);
+  --dash-primary-fg: #ffffff;
+
+  /* Semantic colors */
+  --dash-success: #16a34a;
+  --dash-success-subtle: rgba(22, 163, 74, 0.10);
+  --dash-warning: #b45309;
+  --dash-warning-subtle: rgba(180, 83, 9, 0.10);
+  --dash-danger: #dc2626;
+  --dash-danger-subtle: rgba(220, 38, 38, 0.10);
+
+  background-color: var(--dash-bg);
+  color: var(--dash-text);
+}
+
+/* === SIDEBAR === */
+.dashboard-scope .dash-sidebar {
+  background-color: var(--dash-bg-sidebar);
+  border-right: 1px solid var(--dash-border);
+}
+
+.dashboard-scope .dash-nav-link {
+  color: var(--dash-text-muted);
+  border-radius: 0.5rem;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.dashboard-scope .dash-nav-link:hover {
+  background-color: var(--dash-bg-muted);
+  color: var(--dash-text);
+}
+
+.dashboard-scope .dash-nav-link.active {
+  background-color: var(--dash-primary-subtle);
+  color: var(--dash-primary);
+}
+
+/* === CARDS === */
+.dashboard-scope .dash-card {
+  background-color: var(--dash-bg-card);
+  border: 1px solid var(--dash-border);
+  border-radius: 0.75rem;
+}
+
+/* === TABLE === */
+.dashboard-scope .dash-table thead tr {
+  background-color: var(--dash-bg-muted);
+  color: var(--dash-text-muted);
+}
+
+.dashboard-scope .dash-table tbody tr {
+  border-bottom: 1px solid var(--dash-border);
+}
+
+.dashboard-scope .dash-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* === INPUTS === */
+.dashboard-scope .dash-input {
+  background-color: #f9f9f9;
+  border: 1px solid var(--dash-border);
+  color: var(--dash-text);
+  border-radius: 0.5rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.dashboard-scope .dash-input:focus {
+  outline: none;
+  border-color: var(--dash-primary);
+  box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.12);
+}
+
+/* === HEADER === */
+.dashboard-scope .dash-header {
+  background-color: var(--dash-bg-sidebar);
+  border-bottom: 1px solid var(--dash-border);
+}
+
+/* === MODAL === */
+.dashboard-scope .dash-modal {
+  background-color: var(--dash-bg-card);
+  border: 1px solid var(--dash-border);
+}
+

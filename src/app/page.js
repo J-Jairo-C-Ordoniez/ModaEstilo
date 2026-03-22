@@ -1,6 +1,6 @@
-import Header from "../components/landing/header/Header";
-import Main from "../components/landing/main/Main";
-import { Footer } from "../components/landing/footer/Footer";
+import Header from "../components/structure/header/Header";
+import Main from "../components/structure/main/Main";
+import Footer from "../components/structure/footer/Footer";
 
 export const metadata = {
   title: "Moda y Estilo",
