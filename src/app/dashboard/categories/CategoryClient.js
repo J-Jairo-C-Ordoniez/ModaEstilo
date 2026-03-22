@@ -131,7 +131,7 @@ export function CategoryClient({ initialCategories }) {
                     <div className="flex justify-end gap-1">
                       <button
                         onClick={() => handleOpenModal(cat)}
-                        className="p-2 rounded-lg transition-colors hover:bg-[var(--dash-bg-muted)]"
+                        className="p-2 rounded-lg transition-colors hover:bg-(--dash-bg-muted)"
                         style={S.textMuted}
                         title="Editar"
                       >
@@ -139,7 +139,7 @@ export function CategoryClient({ initialCategories }) {
                       </button>
                       <button
                         onClick={() => handleDelete(cat.categoryId)}
-                        className="p-2 rounded-lg transition-colors hover:bg-[var(--dash-danger-subtle)]"
+                        className="p-2 rounded-lg transition-colors hover:bg-(--dash-danger-subtle)"
                         style={{ color: 'var(--dash-text-muted)' }}
                         onMouseEnter={e => e.currentTarget.style.color = 'var(--dash-danger)'}
                         onMouseLeave={e => e.currentTarget.style.color = 'var(--dash-text-muted)'}
@@ -167,7 +167,7 @@ export function CategoryClient({ initialCategories }) {
               <h3 className="text-base font-semibold" style={S.textStrong}>
                 {editingCategory ? 'Editar Categoría' : 'Nueva Categoría'}
               </h3>
-              <button onClick={handleCloseModal} className="p-1.5 rounded-lg hover:bg-[var(--dash-bg-muted)] transition-colors" style={S.textMuted}>
+              <button onClick={handleCloseModal} className="p-1.5 rounded-lg hover:bg-(--dash-bg-muted) transition-colors" style={S.textMuted}>
                 <X className="h-4 w-4" />
               </button>
             </div>
@@ -192,7 +192,7 @@ export function CategoryClient({ initialCategories }) {
               </div>
               <div className="flex justify-end gap-2 pt-2">
                 <button type="button" onClick={handleCloseModal}
-                  className="px-4 py-2 text-sm font-medium rounded-lg transition-colors hover:bg-[var(--dash-bg-muted)]"
+                  className="px-4 py-2 text-sm font-medium rounded-lg transition-colors hover:bg-(--dash-bg-muted)"
                   style={S.textMuted}>
                   Cancelar
                 </button>
