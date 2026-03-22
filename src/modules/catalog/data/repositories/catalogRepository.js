@@ -98,4 +98,26 @@ export class CatalogRepository {
       take: limit
     });
   }
+
+  async getVariantById(variantId) {
+    return await prisma.variant.findUnique({
+      where: { variantId: parseInt(variantId) },
+      include: {
+        product: {
+          include: {
+            category: true,
+            variants: {
+              where: { isActive: true },
+              include: {
+                images: true,
+                inventories: true
+              }
+            }
+          }
+        },
+        images: true,
+        inventories: true
+      }
+    });
+  }
 }

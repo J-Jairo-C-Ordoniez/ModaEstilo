@@ -16,4 +16,12 @@ export class AboutUsService {
       throw new Error(`Error en AboutUsService: ${error.message}`);
     }
   }
+
+  async getContact() {
+    try {
+      return await this.repository.getContact();
+    } catch (error) {
+      throw new Error(`Error en AboutUsService al obtener contacto: ${error.message}`);
+    }
+  }
 }

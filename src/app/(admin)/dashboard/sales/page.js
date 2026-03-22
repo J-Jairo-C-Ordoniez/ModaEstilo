@@ -1,4 +1,4 @@
-import prisma from '../../../infrastructure/db/client';
+import prisma from '@/infrastructure/db/client';
 import { SalesClient } from './SalesClient';
 
 export const dynamic = 'force-dynamic';

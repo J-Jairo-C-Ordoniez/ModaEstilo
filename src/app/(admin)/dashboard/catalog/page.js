@@ -1,4 +1,4 @@
-import prisma from '../../../infrastructure/db/client';
+import prisma from '@/infrastructure/db/client';
 import { CatalogClient } from './CatalogClient';
 
 export const dynamic = 'force-dynamic';

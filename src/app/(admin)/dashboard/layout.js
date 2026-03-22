@@ -1,12 +1,21 @@
-import { Sidebar } from '../../components/dashboard/Sidebar';
-import { Header } from '../../components/dashboard/Header';
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Sidebar } from '@/components/dashboard/Sidebar';
+import { Header } from '@/components/dashboard/Header';
 
 export const metadata = {
   title: 'Dashboard | Moda y Estilo',
   description: 'Admin dashboard para gestionar la plataforma Web',
 };
 
-export default function DashboardLayout({ children }) {
+export default async function DashboardLayout({ children }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/");
+  }
+
   return (
     <div className="dashboard-scope min-h-screen flex text-(--dash-text) antialiased">
       <Header />

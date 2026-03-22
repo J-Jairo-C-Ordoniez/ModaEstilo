@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function ProductCard({ product }) {
   const formatter = new Intl.NumberFormat('es-CO', {
     style: 'currency',
@@ -7,7 +9,7 @@ export function ProductCard({ product }) {
 
   return (
     product ? (
-      <article className="flex flex-col group cursor-pointer">
+      <Link href={`/product/${product.variantId}`} className="flex flex-col group cursor-pointer">
         <div className={`aspect-4/6 w-full mb-4 relative overflow-hidden bg-foreground flex items-center justify-center`}>
           {product.image ? (
             <img 
@@ -33,7 +35,7 @@ export function ProductCard({ product }) {
             {formatter.format(product.price).replace('$', '$ ')} COP
           </div>
         </div>
-      </article>
+      </Link>
     ) : (
       <article className="flex flex-col group animate-pulse duration-1000">
         <div className={`aspect-4/6 w-full mb-4 relative overflow-hidden bg-foreground flex items-center justify-center`}>

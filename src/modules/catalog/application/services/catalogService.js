@@ -50,4 +50,16 @@ export class CatalogService {
       throw new Error(`Error en CatalogService al obtener variantes populares: ${error.message}`);
     }
   }
+
+  async getVariantById(id) {
+    try {
+      const variant = await this.repository.getVariantById(id);
+      if (!variant) {
+        throw new Error('Variante no encontrada');
+      }
+      return variant;
+    } catch (error) {
+      throw new Error(`Error en CatalogService al obtener la variante: ${error.message}`);
+    }
+  }
 }

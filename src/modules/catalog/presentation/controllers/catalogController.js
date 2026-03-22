@@ -51,4 +51,14 @@ export class CatalogController {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
   }
+
+  async getVariantById(req) {
+    try {
+      const id = req.url.split('/').pop();
+      const variant = await this.service.getVariantById(id);
+      return NextResponse.json({ success: true, data: variant }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
 }

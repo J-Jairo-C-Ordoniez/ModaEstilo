@@ -17,4 +17,16 @@ export class AboutUsController {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
   }
+
+  async getContact() {
+    try {
+      const contact = await this.service.getContact();
+      if (!contact) {
+        return NextResponse.json({ success: false, message: 'No se encontró información de contacto' }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, data: { contact } }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
 }

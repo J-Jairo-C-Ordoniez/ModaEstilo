@@ -1,6 +1,6 @@
 'use server';
 
-import prisma from '../../../infrastructure/db/client';
+import prisma from '@/infrastructure/db/client';
 import { revalidatePath } from 'next/cache';
 
 // --- PRODUCTS ---

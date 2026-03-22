@@ -1,4 +1,4 @@
-import prisma from '../../infrastructure/db/client';
+import prisma from '@/infrastructure/db/client';
 import { DollarSign, ShoppingBag, AlertCircle, Package } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';

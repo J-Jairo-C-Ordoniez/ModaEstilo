@@ -1,0 +1,1 @@
+SELECT * FROM codes ORDER BY createdAt DESC LIMIT 1;

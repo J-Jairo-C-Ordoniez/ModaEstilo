@@ -1,0 +1,20 @@
+import { NextResponse } from 'next/server';
+import { PolicyService } from '../../application/services/policyService';
+
+export class PolicyController {
+  constructor() {
+    this.service = new PolicyService();
+  }
+
+  async getLatestPolicy() {
+    try {
+      const data = await this.service.getLatestPolicy();
+      if (!data) {
+        return NextResponse.json({ success: false, message: 'No se encontraron políticas' }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, data }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+}
