@@ -1,0 +1,19 @@
+import { AboutUsRepository } from '../../data/repositories/aboutUsRepository';
+
+export class AboutUsService {
+  constructor() {
+    this.repository = new AboutUsRepository();
+  }
+
+  async getAboutUs() {
+    try {
+      const data = await this.repository.getAboutUs();
+      if (!data) {
+        return null;
+      }
+      return data;
+    } catch (error) {
+      throw new Error(`Error en AboutUsService: ${error.message}`);
+    }
+  }
+}
