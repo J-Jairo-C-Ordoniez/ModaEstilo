@@ -4,13 +4,14 @@ import { Search, User } from 'lucide-react';
 export default function NavRight({ setBreadcrumbsRoute }) {
     return (
         <div className="flex items-center gap-4">
-            <button
+            <Link
+                href="/search"
                 aria-label="Search"
                 onClick={() => setBreadcrumbsRoute("búscar")}
                 className="text-secondary/90 hover:text-primary transition-colors cursor-pointer"
             >
                 <Search className="w-5 h-5" strokeWidth={1.5} />
-            </button>
+            </Link>
 
             <Link
                 href="/login"

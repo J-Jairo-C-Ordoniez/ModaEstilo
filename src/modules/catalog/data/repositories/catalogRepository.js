@@ -79,4 +79,23 @@ export class CatalogRepository {
   async getCategories() {
     return await prisma.category.findMany();
   }
+
+  async getPopularVariants(limit = 10) {
+    return await prisma.variant.findMany({
+      where: { isActive: true },
+      include: {
+        product: {
+          include: {
+            category: true
+          }
+        },
+        images: true,
+        inventories: true
+      },
+      orderBy: {
+        popularity: 'desc'
+      },
+      take: limit
+    });
+  }
 }

@@ -42,4 +42,12 @@ export class CatalogService {
       throw new Error(`Error en CatalogService al obtener categorías: ${error.message}`);
     }
   }
+
+  async getPopularVariants(limit) {
+    try {
+      return await this.repository.getPopularVariants(limit);
+    } catch (error) {
+      throw new Error(`Error en CatalogService al obtener variantes populares: ${error.message}`);
+    }
+  }
 }

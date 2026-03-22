@@ -1,19 +1,26 @@
+import { useRouter, usePathname } from 'next/navigation';
+
 export default function NavLeft({ breadcrumbs, setBreadcrumbsRoute, setGender }) {
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const handleGenderClick = (gender) => {
+        setBreadcrumbsRoute(gender);
+        setGender(gender);
+        if (pathname !== '/') {
+            router.push('/');
+        }
+    };
+
     return (
         <nav className="flex items-center gap-6 text-xs font-semibold tracking-wider text-gray-500">
             <button
-                onClick={() => {
-                    setBreadcrumbsRoute("mujer")
-                    setGender("mujer")
-                }}
+                onClick={() => handleGenderClick("mujer")}
                 className={breadcrumbs[1].label.toUpperCase() === "MUJER" ? "text-primary transition-colors cursor-pointer" : "text-secondary/90 hover:text-primary transition-colors cursor-pointer"}>
                 MUJER
             </button>
             <button
-                onClick={() => {
-                    setBreadcrumbsRoute("hombre")
-                    setGender("hombre")
-                }}
+                onClick={() => handleGenderClick("hombre")}
                 className={breadcrumbs[1].label.toUpperCase() === "HOMBRE" ? "text-primary transition-colors cursor-pointer" : "text-secondary/90 hover:text-primary transition-colors cursor-pointer"}>
                 HOMBRE
             </button>
