@@ -1,8 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { Sidebar } from '@/components/dashboard/Sidebar';
-import { Header } from '@/components/dashboard/Header';
 
 export const metadata = {
   title: 'Dashboard | Moda y Estilo',
@@ -18,12 +16,7 @@ export default async function DashboardLayout({ children }) {
 
   return (
     <div className="dashboard-scope min-h-screen flex text-(--dash-text) antialiased">
-      <Header />
-      <Sidebar />
-      <main className="flex-1 transition-all duration-300 px-4 sm:px-6 lg:px-8 pt-20 pb-10 sm:ml-64 w-full min-h-screen"
-            style={{ backgroundColor: 'var(--dash-bg)' }}>
-        {children}
-      </main>
+      {children}
     </div>
   );
 }
