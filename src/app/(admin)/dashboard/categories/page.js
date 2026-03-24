@@ -1,28 +1,14 @@
-import prisma from '@/infrastructure/db/client';
-import { CategoryClient } from './CategoryClient';
+import Header from '@/components/dashboard/header/Header';
+import Sidebar from '@/components/dashboard/sidebar/Sidebar';
+import CategoryClient from '@/components/dashboard/categories/CategoryClient';
 
-export const dynamic = 'force-dynamic';
-
-export default async function CategoriesPage() {
-  const categories = await prisma.category.findMany({
-    orderBy: { createdAt: 'desc' },
-    include: {
-      _count: { select: { products: true } }
-    }
-  });
-
+export default function CategoriesPage() {
   return (
-    <div className="space-y-6 pt-2">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--dash-text-strong)' }}>
-          Categorías
-        </h1>
-        <p className="mt-1 text-sm" style={{ color: 'var(--dash-text-muted)' }}>
-          Gestiona las categorías de tus productos.
-        </p>
-      </div>
-      <div className="rounded-xl overflow-hidden" style={{ backgroundColor: 'var(--dash-bg-card)', border: '1px solid var(--dash-border)' }}>
-        <CategoryClient initialCategories={categories} />
+    <div className='flex flex-col h-screen overflow-hidden w-screen'>
+      <Header />
+      <div className='flex flex-1 overflow-hidden'>
+        <Sidebar />
+        <CategoryClient />
       </div>
     </div>
   );

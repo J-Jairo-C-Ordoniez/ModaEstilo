@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { CatalogService } from '../../application/services/catalogService';
+import { ProductService } from '../../application/services/product.service';
+import { VariantService } from '../../application/services/variant.service';
 
 export class CatalogController {
   constructor() {
     this.service = new CatalogService();
+    this.productService = new ProductService();
+    this.variantService = new VariantService();
   }
 
   async getProducts(req) {
@@ -18,6 +22,15 @@ export class CatalogController {
 
       const variants = await this.service.getAllProducts(filters);
       return NextResponse.json({ success: true, data: variants }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
+  async getDashboardCatalog() {
+    try {
+      const products = await this.productService.getAllProducts();
+      return NextResponse.json({ success: true, data: products }, { status: 200 });
     } catch (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
@@ -57,6 +70,72 @@ export class CatalogController {
       const id = req.url.split('/').pop();
       const variant = await this.service.getVariantById(id);
       return NextResponse.json({ success: true, data: variant }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
+  // --- Dashboard Actions ---
+
+  // Product Actions
+  async createProduct(req) {
+    try {
+      const data = await req.json();
+      const product = await this.productService.createProduct(data);
+      return NextResponse.json({ success: true, data: product }, { status: 201 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
+  async updateProduct(req) {
+    try {
+      const id = req.url.split('/').pop();
+      const data = await req.json();
+      const product = await this.productService.updateProduct(id, data);
+      return NextResponse.json({ success: true, data: product }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
+  async deleteProduct(req) {
+    try {
+      const id = req.url.split('/').pop();
+      await this.productService.deleteProduct(id);
+      return NextResponse.json({ success: true }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
+  // Variant Actions
+  async createVariant(req) {
+    try {
+      const data = await req.json();
+      const variant = await this.variantService.createVariant(data);
+      return NextResponse.json({ success: true, data: variant }, { status: 201 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
+  async updateVariant(req) {
+    try {
+      const id = req.url.split('/').pop();
+      const data = await req.json();
+      const variant = await this.variantService.updateVariant(id, data);
+      return NextResponse.json({ success: true, data: variant }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
+  async deleteVariant(req) {
+    try {
+      const id = req.url.split('/').pop();
+      await this.variantService.deleteVariant(id);
+      return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }

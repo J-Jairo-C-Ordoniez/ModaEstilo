@@ -17,5 +17,9 @@ export async function GET(req) {
     return controller.getPopularVariants(req);
   }
 
+  if (action === 'dashboard') {
+    return controller.getDashboardCatalog();
+  }
+
   return controller.getProducts(req);
 }

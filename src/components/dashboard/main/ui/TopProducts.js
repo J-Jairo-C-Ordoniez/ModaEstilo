@@ -29,7 +29,7 @@ export default function TopProducts({ products }) {
                     <table className="w-full text-left border-separate border-spacing-y-2">
                         <thead>
                             <tr className="text-xs font-semibold uppercase text-secondary tracking-widest">
-                                <th className="pb-2 px-4 w-12 text-center">#</th>
+                                <th className="pb-2 px-4 w-12 text-center">ID</th>
                                 <th className="pb-2 px-2">Producto</th>
                                 <th className="pb-2 px-4 text-center">Popularidad</th>
                                 <th className="pb-2 px-4 text-right">Acción</th>

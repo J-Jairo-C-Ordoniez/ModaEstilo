@@ -3,9 +3,9 @@ import { CatalogController } from '@/modules/catalog/presentation/controllers/ca
 const controller = new CatalogController();
 
 export async function PATCH(req) {
-  return controller.updateVariant(req);
+  return controller.updateProduct(req);
 }
 
 export async function DELETE(req) {
-  return controller.deleteVariant(req);
+  return controller.deleteProduct(req);
 }
