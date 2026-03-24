@@ -17,8 +17,8 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-74 flex flex-col pt-16 z-20 transition-all duration-300 border-r border-secondary/10">
-      <div className='container mx-auto px-2 md:px-4 flex flex-col h-full'>
+    <aside className="h-full w-1/6 flex flex-col pt-4 transition-all duration-300 border-r border-secondary/10">
+      <div className='container mx-auto px-1 md:px-2 flex flex-col h-full'>
         <article className="space-y-2 py-5 px-3 overflow-y-auto">
           <h3 className="text-primary/90 text-xs tracking-wider font-semibold uppercase mb-4">
             Navegación

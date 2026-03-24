@@ -1,12 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { updateInventoryBlock, createInventoryRecord } from './actions';
 import { Search, AlertCircle, CheckCircle2, Boxes } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 
 export function InventoryClient({ initialVariants }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [loadingId, setLoadingId] = useState(null);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const variantId = searchParams.get('variantId');
+    if (variantId) {
+      const variant = initialVariants.find(v => v.variantId.toString() === variantId);
+      if (variant) {
+        // We could set search term to SKU to isolate it, 
+        // or just scroll to it if it's already in the list.
+        // Let's scroll and highlight.
+        setTimeout(() => {
+          const element = document.getElementById(`inventory-row-${variantId}`);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            element.classList.add('animate-highlight-brief');
+          }
+        }, 300);
+      }
+    }
+  }, [searchParams, initialVariants]);
 
   const handleStockUpdate = async (variantId, inventoryId, currentStock, e) => {
     e.preventDefault();
@@ -36,6 +57,17 @@ export function InventoryClient({ initialVariants }) {
 
   return (
     <>
+      <style jsx global>{`
+        @keyframes highlight-brief {
+          0% { background-color: transparent; }
+          50% { background-color: var(--dash-primary-subtle); }
+          100% { background-color: transparent; }
+        }
+        .animate-highlight-brief {
+          animation: highlight-brief 2s ease-out 2;
+        }
+      `}</style>
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between p-6 gap-4" style={{ borderBottom: '1px solid var(--dash-border)' }}>
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--dash-primary-subtle)' }}>
@@ -86,6 +118,7 @@ export function InventoryClient({ initialVariants }) {
                 return (
                   <tr
                     key={variant.variantId}
+                    id={`inventory-row-${variant.variantId}`}
                     className="transition-colors"
                     style={{ borderBottom: '1px solid var(--dash-border)' }}
                     onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--dash-bg-muted)'}
@@ -166,3 +199,4 @@ export function InventoryClient({ initialVariants }) {
     </>
   );
 }
+

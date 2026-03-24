@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Edit2, Trash2, X, ChevronDown, ChevronUp, Image as ImageIcon, Package } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { createProduct, updateProduct, deleteProduct, createVariant, updateVariant, deleteVariant } from './actions';
 
 const S = {
@@ -25,6 +26,28 @@ export function CatalogClient({ initialProducts, categories }) {
   const [currentProductId, setCurrentProductId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const variantId = searchParams.get('variantId');
+    if (variantId) {
+      const product = initialProducts.find(p => 
+        p.variants.some(v => v.variantId.toString() === variantId)
+      );
+      if (product) {
+        setExpandedProducts(prev => ({ ...prev, [product.productId]: true }));
+        // Wait for render to scroll
+        setTimeout(() => {
+          const element = document.getElementById(`variant-${variantId}`);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            element.classList.add('animate-pulse-brief');
+          }
+        }, 300);
+      }
+    }
+  }, [searchParams, initialProducts]);
 
   const toggleExpand = (productId) =>
     setExpandedProducts(prev => ({ ...prev, [productId]: !prev[productId] }));
@@ -88,6 +111,18 @@ export function CatalogClient({ initialProducts, categories }) {
 
   return (
     <>
+      <style jsx global>{`
+        @keyframes pulse-brief {
+          0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(var(--dash-primary-rgb), 0.4); }
+          50% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(var(--dash-primary-rgb), 0); }
+          100% { transform: scale(1); }
+        }
+        .animate-pulse-brief {
+          animation: pulse-brief 1.5s ease-out 2;
+          border: 2px solid var(--dash-primary) !important;
+        }
+      `}</style>
+
       {/* Header */}
       <div className="flex items-center justify-between p-6" style={{ borderBottom: '1px solid var(--dash-border)' }}>
         <div className="flex items-center gap-3">
@@ -216,7 +251,8 @@ export function CatalogClient({ initialProducts, categories }) {
                               {product.variants.map((v) => (
                                 <div
                                   key={v.variantId}
-                                  className="flex gap-3 p-3 rounded-xl"
+                                  id={`variant-${v.variantId}`}
+                                  className="flex gap-3 p-3 rounded-xl transition-all"
                                   style={{ backgroundColor: 'var(--dash-bg-card)', border: '1px solid var(--dash-border)' }}
                                 >
                                   <div

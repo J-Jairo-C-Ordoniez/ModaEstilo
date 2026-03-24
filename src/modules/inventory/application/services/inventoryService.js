@@ -21,4 +21,12 @@ export class InventoryService {
     
     return await this.repository.updateStock(variantId, -amount);
   }
+
+  async getDashboardData() {
+    const [totalStock, lowStockItems] = await Promise.all([
+      this.repository.getTotalStock(),
+      this.repository.getLowStockItems(10)
+    ]);
+    return { totalStock, lowStockItems };
+  }
 }

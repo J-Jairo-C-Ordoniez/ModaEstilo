@@ -18,4 +18,26 @@ export class InventoryRepository {
       data: { stock: inventory.stock + quantityChange }
     });
   }
+
+  async getTotalStock() {
+    const result = await prisma.inventory.aggregate({
+      _sum: { stock: true }
+    });
+    return result._sum.stock || 0;
+  }
+
+  async getLowStockItems(limit = 10) {
+    return await prisma.inventory.findMany({
+      where: { stock: { lt: 10 } },
+      include: {
+        variant: {
+          include: {
+            product: true
+          }
+        }
+      },
+      take: limit,
+      orderBy: { stock: 'asc' }
+    });
+  }
 }
