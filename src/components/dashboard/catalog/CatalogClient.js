@@ -32,7 +32,7 @@ export default function CatalogClient() {
                 fetch('/api/catalog?action=dashboard'),
                 fetch('/api/catalog?action=categories')
             ]);
-            
+
             const productsJson = await productsRes.json();
             const categoriesJson = await categoriesRes.json();
 
@@ -52,7 +52,7 @@ export default function CatalogClient() {
     useEffect(() => {
         const variantId = searchParams.get('variantId');
         if (variantId && products.length > 0) {
-            const product = products.find(p => 
+            const product = products.find(p =>
                 p.variants.some(v => v.variantId.toString() === variantId)
             );
             if (product) {
@@ -78,7 +78,7 @@ export default function CatalogClient() {
     const handleProductSubmit = async (data) => {
         setSubmitting(true);
         try {
-            const url = productModal.editingProduct 
+            const url = productModal.editingProduct
                 ? `/api/catalog/products/${productModal.editingProduct.productId}`
                 : '/api/catalog/products';
             const method = productModal.editingProduct ? 'PATCH' : 'POST';
@@ -131,11 +131,11 @@ export default function CatalogClient() {
     const handleVariantSubmit = async (data) => {
         setSubmitting(true);
         try {
-            const url = variantModal.editingVariant 
+            const url = variantModal.editingVariant
                 ? `/api/catalog/variants/${variantModal.editingVariant.variantId}`
                 : '/api/catalog/variants';
             const method = variantModal.editingVariant ? 'PATCH' : 'POST';
-            
+
             if (!variantModal.editingVariant) data.productId = variantModal.productId;
 
             const res = await fetch(url, {
@@ -179,6 +179,16 @@ export default function CatalogClient() {
         }
     };
 
+    const handleUploadNotify = () => {
+        setAlertConfig({
+            isOpen: true,
+            title: '¡Imagen Lista!',
+            message: 'La imagen se ha procesado, se le ha quitado el fondo y se ajustó al tamaño de 408x612 correctamente.',
+            variant: 'success'
+        });
+    };
+
+
     if (loading && products.length === 0) {
         return (
             <main className="h-full flex-1 flex justify-center py-20">
@@ -189,28 +199,28 @@ export default function CatalogClient() {
         );
     }
 
-    const filteredProducts = products.filter(p => 
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const filteredProducts = products.filter(p =>
+        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.category.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
         <main className="h-full flex-1 overflow-y-auto transition-all duration-300 px-4 sm:px-6 lg:px-8 pt-4 pb-10">
             <div className="container mx-auto space-y-8 pt-2">
-                <Header 
-                    title="Catálogo" 
-                    description="Gestiona tus productos y todas sus variantes." 
+                <Header
+                    title="Catálogo"
+                    description="Gestiona tus productos y todas sus variantes."
                 />
 
                 <section className="rounded-xl p-6 flex flex-col gap-6 relative">
-                    <CatalogHeader 
-                        productCount={products.length} 
-                        onOpenProductModal={() => handleOpenProductModal()} 
+                    <CatalogHeader
+                        productCount={products.length}
+                        onOpenProductModal={() => handleOpenProductModal()}
                         searchTerm={searchTerm}
                         setSearchTerm={setSearchTerm}
                     />
 
-                    <CatalogTable 
+                    <CatalogTable
                         products={filteredProducts}
                         expandedProducts={expandedProducts}
                         onToggleExpand={toggleExpand}
@@ -228,7 +238,7 @@ export default function CatalogClient() {
                 onClose={() => setProductModal({ isOpen: false, editingProduct: null })}
                 title={productModal.editingProduct ? 'Editar Producto' : 'Nuevo Producto'}
             >
-                <ProductForm 
+                <ProductForm
                     editingProduct={productModal.editingProduct}
                     categories={categories}
                     onSubmit={handleProductSubmit}
@@ -242,10 +252,11 @@ export default function CatalogClient() {
                 onClose={() => setVariantModal({ isOpen: false, editingVariant: null, productId: null })}
                 title={variantModal.editingVariant ? 'Editar Variante' : 'Nueva Variante'}
             >
-                <VariantForm 
+                <VariantForm
                     editingVariant={variantModal.editingVariant}
                     onSubmit={handleVariantSubmit}
                     onCancel={() => setVariantModal({ isOpen: false, editingVariant: null, productId: null })}
+                    onUploadSuccess={handleUploadNotify} // <--- Pasamos la función aquí
                     loading={submitting}
                 />
             </Modal>
