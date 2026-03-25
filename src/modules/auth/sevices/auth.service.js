@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { AuthRepository } from '../repositories/authRepository';
+import { AuthRepository } from '../repositories/auth.repository';
 
 export class AuthService {
   constructor() {

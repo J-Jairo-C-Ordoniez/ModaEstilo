@@ -1,4 +1,4 @@
-import { AboutUsRepository } from '../repositories/aboutUsRepository';
+import { AboutUsRepository } from '../repositories/aboutUs.repository';
 
 export class AboutUsService {
   constructor() {

@@ -1,4 +1,4 @@
-import { CatalogController } from '../../../modules/catalog/controllers/catalogController';
+import { CatalogController } from '../../../modules/catalog/controllers/catalog.controller';
 
 export async function GET(req) {
   const controller = new CatalogController();

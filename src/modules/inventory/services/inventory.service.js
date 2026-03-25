@@ -1,4 +1,4 @@
-import { InventoryRepository } from '../repositories/inventoryRepository';
+import { InventoryRepository } from '../repositories/inventory.repository';
 
 export class InventoryService {
   constructor() {

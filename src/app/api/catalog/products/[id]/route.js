@@ -1,4 +1,4 @@
-import { CatalogController } from '@/modules/catalog/controllers/catalogController';
+import { CatalogController } from '@/modules/catalog/controllers/catalog.controller';
 
 const controller = new CatalogController();
 

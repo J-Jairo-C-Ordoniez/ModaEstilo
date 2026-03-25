@@ -1,4 +1,4 @@
-import { SalesRepository } from '../repositories/salesRepository';
+import { SalesRepository } from '../repositories/sales.repository';
 import { InventoryService } from '@/modules/inventory/services/inventory.service';
 import { VariantService } from '@/modules/catalog/services/variant.service';
 

@@ -1,4 +1,4 @@
-import { DashboardController } from '@/modules/sales/controllers/dashboardController';
+import { DashboardController } from '@/modules/sales/controllers/dashboard.controller';
 
 export async function GET(req) {
   const controller = new DashboardController();
