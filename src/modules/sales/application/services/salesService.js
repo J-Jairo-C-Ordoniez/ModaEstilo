@@ -1,10 +1,12 @@
 import { SalesRepository } from '../../data/repositories/salesRepository';
 import { InventoryService } from '@/modules/inventory/application/services/inventoryService';
+import { VariantService } from '@/modules/catalog/application/services/variant.service';
 
 export class SalesService {
   constructor() {
     this.repository = new SalesRepository();
     this.inventoryService = new InventoryService();
+    this.variantService = new VariantService();
   }
 
   async registerSale(saleData) {
@@ -13,11 +15,19 @@ export class SalesService {
     
     // Si hay stock, registrar la venta
     const newSale = await this.repository.createSale(saleData);
+    
+    // Incrementar popularidad
+    await this.variantService.incrementPopularity(saleData.variantId, saleData.amount);
+    
     return newSale;
   }
 
   async getAllSales() {
-    return await this.repository.getSales();
+    try {
+      return await this.repository.getSales();
+    } catch (error) {
+      throw new Error(`Error al obtener ventas: ${error.message}`);
+    }
   }
 
   async getDashboardMetrics() {

@@ -1,5 +1,11 @@
 import { CategoryController } from '@/modules/catalog/presentation/controllers/categoryController';
 
+export async function GET(req, { params }) {
+  const { id } = await params;
+  const controller = new CategoryController();
+  return controller.getCategoryById(id);
+}
+
 export async function PATCH(req, { params }) {
   const { id } = await params;
   const controller = new CategoryController();

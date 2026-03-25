@@ -52,4 +52,13 @@ export class VariantService {
       throw new Error('No se puede eliminar la variante si tiene inventario o ventas asociadas');
     }
   }
+
+  async incrementPopularity(id, amount) {
+    try {
+      return await this.repository.incrementPopularity(id, amount);
+    } catch (error) {
+      console.error(`Error al incrementar popularidad: ${error.message}`);
+      // No lanzamos error para no bloquear la venta si falla la popularidad
+    }
+  }
 }

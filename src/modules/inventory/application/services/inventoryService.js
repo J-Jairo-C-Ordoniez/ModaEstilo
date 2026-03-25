@@ -6,20 +6,40 @@ export class InventoryService {
   }
 
   async checkStock(variantId) {
-    const inventories = await this.repository.getInventoryByVariantId(variantId);
-    const totalStock = inventories.reduce((sum, inv) => sum + inv.stock, 0);
-    return { variantId, stock: totalStock };
+    const inventory = await this.repository.getInventoryByVariantId(variantId);
+    return { variantId, stock: inventory ? inventory.stock : 0 };
   }
 
   async decreaseStock(variantId, amount) {
-    if (amount <= 0) throw new Error('Amount must be positive');
-    
-    const { stock } = await this.checkStock(variantId);
-    if (stock < amount) {
-      throw new Error('No hay suficiente stock disponible');
+    const { stock: currentStock } = await this.checkStock(variantId);
+    if (currentStock < amount) {
+      throw new Error(`Stock insuficiente. Disponible: ${currentStock}`);
     }
-    
-    return await this.repository.updateStock(variantId, -amount);
+    const newStock = currentStock - amount;
+    return await this.updateInventoryStock(variantId, newStock);
+  }
+
+  async increaseStock(variantId, amount) {
+    const { stock: currentStock } = await this.checkStock(variantId);
+    const newStock = currentStock + amount;
+    return await this.updateInventoryStock(variantId, newStock);
+  }
+
+  async getAllInventory() {
+    try {
+      return await this.repository.getAllProductsWithInventory();
+    } catch (error) {
+      throw new Error(`Error al obtener el inventario: ${error.message}`);
+    }
+  }
+
+  async updateInventoryStock(variantId, stock) {
+    if (stock < 0) throw new Error('El stock no puede ser negativo');
+    try {
+      return await this.repository.createOrUpdateStock(variantId, stock);
+    } catch (error) {
+      throw new Error(`Error al actualizar stock: ${error.message}`);
+    }
   }
 
   async getDashboardData() {

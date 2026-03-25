@@ -15,6 +15,15 @@ export class CategoryController {
     }
   }
 
+  async getCategoryById(id) {
+    try {
+      const category = await this.service.getCategoryById(id);
+      return NextResponse.json({ success: true, data: category }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 404 });
+    }
+  }
+
   async createCategory(req) {
     try {
       const body = await req.json();

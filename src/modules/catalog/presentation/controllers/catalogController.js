@@ -65,11 +65,19 @@ export class CatalogController {
     }
   }
 
-  async getVariantById(req) {
+  async getVariantById(req, id) {
     try {
-      const id = req.url.split('/').pop();
       const variant = await this.service.getVariantById(id);
       return NextResponse.json({ success: true, data: variant }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
+  async getProductById(req, id) {
+    try {
+      const product = await this.service.getProductById(id);
+      return NextResponse.json({ success: true, data: product }, { status: 200 });
     } catch (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
@@ -88,9 +96,8 @@ export class CatalogController {
     }
   }
 
-  async updateProduct(req) {
+  async updateProduct(req, id) {
     try {
-      const id = req.url.split('/').pop();
       const data = await req.json();
       const product = await this.productService.updateProduct(id, data);
       return NextResponse.json({ success: true, data: product }, { status: 200 });
@@ -99,9 +106,8 @@ export class CatalogController {
     }
   }
 
-  async deleteProduct(req) {
+  async deleteProduct(req, id) {
     try {
-      const id = req.url.split('/').pop();
       await this.productService.deleteProduct(id);
       return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
@@ -120,9 +126,8 @@ export class CatalogController {
     }
   }
 
-  async updateVariant(req) {
+  async updateVariant(req, id) {
     try {
-      const id = req.url.split('/').pop();
       const data = await req.json();
       const variant = await this.variantService.updateVariant(id, data);
       return NextResponse.json({ success: true, data: variant }, { status: 200 });
@@ -131,9 +136,8 @@ export class CatalogController {
     }
   }
 
-  async deleteVariant(req) {
+  async deleteVariant(req, id) {
     try {
-      const id = req.url.split('/').pop();
       await this.variantService.deleteVariant(id);
       return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {

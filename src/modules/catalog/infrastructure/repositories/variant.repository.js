@@ -49,4 +49,15 @@ export class VariantRepository {
       where: { variantId: parseInt(variantId) }
     });
   }
+
+  async incrementPopularity(variantId, amount = 1) {
+    return await prisma.variant.update({
+      where: { variantId: parseInt(variantId) },
+      data: {
+        popularity: {
+          increment: amount
+        }
+      }
+    });
+  }
 }

@@ -1,11 +1,21 @@
 import { SalesController } from '@/modules/sales/presentation/controllers/salesController';
+import { CatalogController } from '@/modules/catalog/presentation/controllers/catalogController';
+
+const salesController = new SalesController();
+const catalogController = new CatalogController();
 
 export async function GET(req) {
-  const controller = new SalesController();
-  return controller.getSales();
+  const { searchParams } = new URL(req.url);
+  const action = searchParams.get('action');
+
+  if (action === 'variants') {
+    return catalogController.getProducts(req); // Reuse catalog products/variants fetch if needed, 
+    // but better use a specific variants fetch for the sale form
+  }
+
+  return salesController.getSales();
 }
 
 export async function POST(req) {
-  const controller = new SalesController();
-  return controller.createSale(req);
+  return salesController.createSale(req);
 }

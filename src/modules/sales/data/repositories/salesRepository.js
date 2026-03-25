@@ -6,6 +6,20 @@ export class SalesRepository {
       data: saleData,
     });
   }
+  async getSales() {
+    return await prisma.sale.findMany({
+      include: {
+        variant: {
+          include: {
+            product: true
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+  }
 
   async getSalesMetric(startDate) {
     const [count, result] = await Promise.all([

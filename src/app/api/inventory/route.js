@@ -1,6 +1,11 @@
 import { InventoryController } from '@/modules/inventory/presentation/controllers/inventoryController';
 
+const controller = new InventoryController();
+
 export async function GET(req) {
-  const controller = new InventoryController();
-  return controller.getStock(req);
+  return controller.getDashboardInventory(req);
+}
+
+export async function POST(req) {
+  return controller.updateStock(req);
 }
