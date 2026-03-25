@@ -1,6 +1,6 @@
 'use client';
 
-import useBreadcrumbsStore from "../../../store/breadcrumbs";
+import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "./ui/Breadcrumbs";
 import FilterBar from "./ui/FilterBar";
 import { ProductGrid } from "./ui/ProductGrid";

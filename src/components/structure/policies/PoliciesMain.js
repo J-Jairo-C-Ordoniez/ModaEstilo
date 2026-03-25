@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useBreadcrumbsStore from "../../../store/breadcrumbs";
+import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "../main/ui/Breadcrumbs";
 import PolicyContent from "./ui/PolicyContent";
 
@@ -21,7 +21,7 @@ export default function PoliciesMain() {
         setIsLoading(true);
         const response = await fetch("/api/policies");
         const result = await response.json();
-        
+
         if (result.success) {
           setPolicyData(result.data);
         } else {

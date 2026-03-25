@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { ProductCard } from './ProductCard';
-import useFilterCatalogStore from '../../../../store/filterCatalog';
+import useFilterCatalogStore from '../../../../store/filterCatalog.store';
 
 export function ProductGrid() {
   const { products, isLoading, error, fetchProducts } = useFilterCatalogStore();

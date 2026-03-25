@@ -6,7 +6,7 @@ import SalesPeriodMetrics from './ui/SalesPeriodMetrics';
 import SalesGlobalMetrics from './ui/SalesGlobalMetrics';
 import TopProducts from './ui/TopProducts';
 import LowStock from './ui/LowStock';
-import useDashboardStore from '@/store/dashboardStore';
+import useDashboardStore from '@/store/dashboard.store';
 
 export default function Main() {
     const { stats, isLoading, error, fetchDashboardData } = useDashboardStore();

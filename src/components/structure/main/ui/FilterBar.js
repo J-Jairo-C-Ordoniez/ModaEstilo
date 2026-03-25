@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { FilterDropdown } from './FilterDropdown';
-import useFilterCatalogStore from '../../../../store/filterCatalog';
+import useFilterCatalogStore from '../../../../store/filterCatalog.store';
 
 export default function FilterBar() {
   const { setColor, setCategory } = useFilterCatalogStore();
@@ -55,18 +55,18 @@ export default function FilterBar() {
   return (
     <section className="w-full py-2">
       <div className="flex items-center justify-between">
-        <FilterDropdown 
-            title="COLOR" 
-            options={colorOptions} 
-            setOptions={setColorOptions} 
-            align="left"
+        <FilterDropdown
+          title="COLOR"
+          options={colorOptions}
+          setOptions={setColorOptions}
+          align="left"
         />
-        
-        <FilterDropdown 
-            title="CLASIFICAR POR" 
-            options={categoryOptions} 
-            setOptions={setCategoryOptions} 
-            align="right"
+
+        <FilterDropdown
+          title="CLASIFICAR POR"
+          options={categoryOptions}
+          setOptions={setCategoryOptions}
+          align="right"
         />
       </div>
     </section>

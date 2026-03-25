@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import useBreadcrumbsStore from "../../../store/breadcrumbs";
+import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "../main/ui/Breadcrumbs";
 import SearchInitial from "./ui/SearchInitial";
 import SearchResults from "./ui/SearchResults";

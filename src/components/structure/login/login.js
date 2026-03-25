@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import useBreadcrumbsStore from "../../../store/breadcrumbs";
+import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from '../main/ui/Breadcrumbs';
 
 export default function Login() {

@@ -1,7 +1,7 @@
 'use client';
 
-import useBreadcrumbsStore from '../../../store/breadcrumbs';
-import useFilterCatalogStore from '../../../store/filterCatalog';
+import useBreadcrumbsStore from '../../../store/breadcrumbs.store';
+import useFilterCatalogStore from '../../../store/filterCatalog.store';
 import Link from 'next/link';
 import NavLeft from './ui/NavLeft';
 import NavRight from './ui/NavRight';

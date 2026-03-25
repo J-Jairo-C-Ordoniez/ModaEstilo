@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useBreadcrumbsStore from "../../../store/breadcrumbs";
+import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "../main/ui/Breadcrumbs";
 import ContactContent from "./ui/ContactContent";
 
@@ -21,7 +21,7 @@ export default function ContactMain() {
         setIsLoading(true);
         const response = await fetch("/api/contact");
         const result = await response.json();
-        
+
         if (result.success) {
           setContact(result.data.contact);
         } else {

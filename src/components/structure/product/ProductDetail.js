@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useBreadcrumbsStore from "../../../store/breadcrumbs";
+import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "../main/ui/Breadcrumbs";
 import ProductInfo from "./ui/ProductInfo";
 import ProductImg from "./ui/ProductImg";
@@ -83,18 +83,18 @@ export default function ProductDetail({ variantId }) {
           </div>
         )}
 
-        {!isLoading && !error && data && 
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 py-5">
-          <ProductImg variant={selectedVariant} />
+        {!isLoading && !error && data &&
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 py-5">
+            <ProductImg variant={selectedVariant} />
 
-          <ProductInfo
-            product={data.product}
-            variant={selectedVariant}
-            allVariants={data.product.variants}
-            contact={contact}
-            setSelectedVariant={setSelectedVariant}
-          />
-        </section>}
+            <ProductInfo
+              product={data.product}
+              variant={selectedVariant}
+              allVariants={data.product.variants}
+              contact={contact}
+              setSelectedVariant={setSelectedVariant}
+            />
+          </section>}
       </div>
     </main>
   );
