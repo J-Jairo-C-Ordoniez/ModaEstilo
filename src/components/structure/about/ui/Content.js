@@ -6,8 +6,8 @@ export default function Content({ aboutData }) {
         : (typeof aboutData.content === 'string' ? JSON.parse(aboutData.content) : []);
 
     return (
-        <section className="mx-auto w-full py-20">
-            <div className="flex justify-between gap-12 mb-16">
+        <section className="mx-auto w-full py-10 md:py-20">
+            <div className="flex flex-col md:flex-row justify-between gap-12 mb-16">
                 <article className="space-y-8 flex flex-col justify-start">
                     {paragraphs.slice(0, 3).map((text, idx) => (
                         <p key={idx} className="text-secondary leading-relaxed max-w-lg text-sm tracking-wider md:text-base font-light">
@@ -24,7 +24,7 @@ export default function Content({ aboutData }) {
                     ))}
                 </article>
 
-                <div className="flex items-center -rotate-45">
+                <div className="flex items-center">
                     <div className="w-55 h-55 flex flex-col items-center justify-center p-2">
                         {aboutData.logo && (
                             <Image

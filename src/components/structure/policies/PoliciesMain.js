@@ -28,7 +28,6 @@ export default function PoliciesMain() {
           setError(result.message || "Error al cargar las políticas");
         }
       } catch (err) {
-        console.error("Error fetching policies data:", err);
         setError("Error de conexión con el servidor");
       } finally {
         setIsLoading(false);
