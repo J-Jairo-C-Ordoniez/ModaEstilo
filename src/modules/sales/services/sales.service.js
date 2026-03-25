@@ -1,5 +1,5 @@
-import { SalesRepository } from '../../data/repositories/salesRepository';
-import { InventoryService } from '@/modules/inventory/application/services/inventoryService';
+import { SalesRepository } from '../repositories/salesRepository';
+import { InventoryService } from '@/modules/inventory/services/inventory.service';
 import { VariantService } from '@/modules/catalog/services/variant.service';
 
 export class SalesService {

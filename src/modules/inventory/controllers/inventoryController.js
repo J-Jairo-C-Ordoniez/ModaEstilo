@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { InventoryService } from '../../application/services/inventoryService';
+import { InventoryService } from '../services/inventory.service';
 
 export class InventoryController {
   constructor() {
@@ -10,7 +10,7 @@ export class InventoryController {
     try {
       const { searchParams } = new URL(req.url);
       const variantId = searchParams.get('variantId');
-      
+
       if (!variantId) {
         return NextResponse.json({ success: false, error: 'Falta variantId' }, { status: 400 });
       }

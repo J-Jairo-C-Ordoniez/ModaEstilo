@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { SalesService } from '../../application/services/salesService';
+import { SalesService } from '../services/sales.service';
 
 export class SalesController {
   constructor() {
@@ -9,7 +9,7 @@ export class SalesController {
   async createSale(req) {
     try {
       const body = await req.json();
-      
+
       if (!body.variantId || !body.amount || !body.total || !body.paymentMethod) {
         return NextResponse.json({ success: false, error: 'Datos incompletos para la venta' }, { status: 400 });
       }

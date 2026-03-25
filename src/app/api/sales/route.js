@@ -1,4 +1,4 @@
-import { SalesController } from '@/modules/sales/presentation/controllers/salesController';
+import { SalesController } from '@/modules/sales/controllers/salesController';
 import { CatalogController } from '@/modules/catalog/controllers/catalogController';
 
 const salesController = new SalesController();

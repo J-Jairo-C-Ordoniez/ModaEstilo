@@ -1,4 +1,4 @@
-import { PolicyRepository } from '../repository/policyRepository';
+import { PolicyRepository } from '../repositories/policyRepository';
 
 export class PolicyService {
   constructor() {

@@ -1,4 +1,4 @@
-import { InventoryController } from '@/modules/inventory/presentation/controllers/inventoryController';
+import { InventoryController } from '@/modules/inventory/controllers/inventoryController';
 
 const controller = new InventoryController();
 

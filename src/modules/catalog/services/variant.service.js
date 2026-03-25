@@ -1,4 +1,4 @@
-import { VariantRepository } from '../repository/variant.repository';
+import { VariantRepository } from '../repositories/variant.repository';
 
 export class VariantService {
   constructor() {
