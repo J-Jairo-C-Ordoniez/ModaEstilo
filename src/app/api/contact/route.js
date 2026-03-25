@@ -1,4 +1,4 @@
-import { AboutUsController } from '@/modules/about/presentation/controllers/aboutUsController';
+import { AboutUsController } from '@/modules/about/contoller/aboutUsController';
 
 export async function GET() {
   const controller = new AboutUsController();
