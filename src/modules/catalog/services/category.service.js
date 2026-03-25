@@ -1,4 +1,4 @@
-import { CategoryRepository } from '../../data/repositories/categoryRepository';
+import { CategoryRepository } from '../repository/categoryRepository';
 
 export class CategoryService {
   constructor() {

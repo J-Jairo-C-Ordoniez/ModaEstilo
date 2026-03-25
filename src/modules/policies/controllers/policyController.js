@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PolicyService } from '../services/policyService';
+import { PolicyService } from '../services/policy.service';
 
 export class PolicyController {
   constructor() {

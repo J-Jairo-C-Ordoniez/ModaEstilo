@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { AboutUsService } from '../services/aboutUsService';
+import { AboutUsService } from '../services/aboutUs.service';
 
 export class AboutUsController {
     constructor() {

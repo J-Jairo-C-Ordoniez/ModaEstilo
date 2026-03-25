@@ -1,4 +1,4 @@
-import { CatalogRepository } from '../../data/repositories/catalogRepository';
+import { CatalogRepository } from '../repository/catalogRepository';
 
 export class CatalogService {
   constructor() {

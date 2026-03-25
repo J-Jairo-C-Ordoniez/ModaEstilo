@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { SalesService } from '../../application/services/salesService';
 import { InventoryService } from '@/modules/inventory/application/services/inventoryService';
-import { CatalogService } from '@/modules/catalog/application/services/catalogService';
+import { CatalogService } from '@/modules/catalog/services/catalog.service';
 
 export class DashboardController {
   constructor() {

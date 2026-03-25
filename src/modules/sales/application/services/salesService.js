@@ -1,6 +1,6 @@
 import { SalesRepository } from '../../data/repositories/salesRepository';
 import { InventoryService } from '@/modules/inventory/application/services/inventoryService';
-import { VariantService } from '@/modules/catalog/application/services/variant.service';
+import { VariantService } from '@/modules/catalog/services/variant.service';
 
 export class SalesService {
   constructor() {
@@ -12,13 +12,13 @@ export class SalesService {
   async registerSale(saleData) {
     // Verificar y descontar stock
     await this.inventoryService.decreaseStock(saleData.variantId, saleData.amount);
-    
+
     // Si hay stock, registrar la venta
     const newSale = await this.repository.createSale(saleData);
-    
+
     // Incrementar popularidad
     await this.variantService.incrementPopularity(saleData.variantId, saleData.amount);
-    
+
     return newSale;
   }
 

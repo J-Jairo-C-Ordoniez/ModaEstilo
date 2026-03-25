@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { CatalogService } from '../../application/services/catalogService';
-import { ProductService } from '../../application/services/product.service';
-import { VariantService } from '../../application/services/variant.service';
+import { CatalogService } from '../services/catalog.service';
+import { ProductService } from '../services/product.service';
+import { VariantService } from '../services/variant.service';
 
 export class CatalogController {
   constructor() {
@@ -83,9 +83,6 @@ export class CatalogController {
     }
   }
 
-  // --- Dashboard Actions ---
-
-  // Product Actions
   async createProduct(req) {
     try {
       const data = await req.json();
@@ -115,7 +112,6 @@ export class CatalogController {
     }
   }
 
-  // Variant Actions
   async createVariant(req) {
     try {
       const data = await req.json();

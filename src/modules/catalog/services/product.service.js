@@ -1,4 +1,4 @@
-import { ProductRepository } from '../../infrastructure/repositories/product.repository';
+import { ProductRepository } from '../repository/product.repository';
 
 export class ProductService {
   constructor() {

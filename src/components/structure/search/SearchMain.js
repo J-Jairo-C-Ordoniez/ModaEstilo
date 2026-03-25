@@ -23,7 +23,7 @@ export default function SearchMain() {
         const popData = await popRes.json();
         if (popData.success) setPopular(popData.data);
       } catch (error) {
-        console.error("Error fetching initial search data:", error);
+        console.error(error);
       }
     };
     fetchInitialData();
@@ -47,7 +47,7 @@ export default function SearchMain() {
             setHasSearched(true);
           }
         } catch (error) {
-          console.error("Error searching:", error);
+          console.error(error);
         } finally {
           setIsLoading(false);
         }

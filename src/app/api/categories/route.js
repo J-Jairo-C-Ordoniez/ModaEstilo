@@ -1,4 +1,4 @@
-import { CategoryController } from '@/modules/catalog/presentation/controllers/categoryController';
+import { CategoryController } from '@/modules/catalog/controllers/categoryController';
 
 export async function GET() {
   const controller = new CategoryController();

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { CategoryService } from '../../application/services/categoryService';
+import { CategoryService } from '../services/category.service';
 
 export class CategoryController {
   constructor() {
