@@ -38,7 +38,7 @@ export default function ContactMain() {
   }, []);
 
   return (
-    <main className="bg-background w-full min-h-screen">
+    <main className="bg-background w-full min-h-screen overflow-x-hidden">
       <div className="container mx-auto p-4 md:p-8">
         <Breadcrumbs
           breadcrumbs={breadcrumbs}

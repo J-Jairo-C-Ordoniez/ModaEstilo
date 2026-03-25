@@ -28,7 +28,6 @@ export default function AboutMain() {
           setError(result.message || "Error al cargar la información");
         }
       } catch (err) {
-        console.error("Error fetching about data:", err);
         setError("Error de conexión con el servidor");
       } finally {
         setIsLoading(false);
@@ -39,7 +38,7 @@ export default function AboutMain() {
   }, []);
 
   return (
-    <main className="bg-background w-full min-h-screen">
+    <main className="bg-background w-full min-h-screen overflow-x-hidden">
       <div className="container mx-auto p-4 md:p-8">
         <Breadcrumbs
           breadcrumbs={breadcrumbs}
