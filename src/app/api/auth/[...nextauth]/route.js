@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthService } from "@/modules/auth/application/services/authService";
+import { AuthService } from "@/modules/auth/sevices/auth.service";
 
 export const authOptions = {
   providers: [
@@ -18,7 +18,7 @@ export const authOptions = {
         try {
           const authService = new AuthService();
           const user = await authService.authenticateUser(credentials.email, credentials.password);
-          
+
           if (user) {
             return {
               id: user.userId.toString(),

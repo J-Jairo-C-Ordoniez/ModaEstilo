@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { AuthRepository } from '../../data/repositories/authRepository';
+import { AuthRepository } from '../repository/authRepository';
 
 export class AuthService {
   constructor() {
@@ -43,7 +43,7 @@ export class AuthService {
 
     // SIMULATION: Log code for the user to see in dev
     console.log(`[AUTH] Reset code for ${email}: ${code}`);
-    
+
     return { success: true, message: 'Código enviado al correo' };
   }
 
@@ -52,9 +52,9 @@ export class AuthService {
     if (!user) throw new Error('Usuario no encontrado');
 
     const latestCode = await this.repository.getLatestCodeByUserId(user.userId, 'reset');
-    
+
     if (!latestCode) throw new Error('No se encontró un código de recuperación');
-    
+
     // Check deadline
     if (new Date() > new Date(latestCode.deadLine)) {
       throw new Error('El código ha expirado');
@@ -72,7 +72,7 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await this.repository.updateUserPassword(user.userId, hashedPassword);
-    
+
     // Clean up codes
     await this.repository.deleteUserCodes(user.userId);
 
