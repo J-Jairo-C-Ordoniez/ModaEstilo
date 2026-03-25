@@ -20,7 +20,7 @@ export default function Main() {
                 <div>
                     <FilterBar />
                     <ProductGrid />
-                    {/* <Pagination /> */}
+                    <Pagination />
                 </div>
             </div>
         </main>
