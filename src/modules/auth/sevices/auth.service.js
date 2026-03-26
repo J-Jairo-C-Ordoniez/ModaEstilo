@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { AuthRepository } from '../repositories/auth.repository';
+import { emailService } from '@/shared/utils/email.service';
 
 export class AuthService {
   constructor() {
@@ -26,11 +27,9 @@ export class AuthService {
       throw new Error('Usuario no encontrado');
     }
 
-    // Generate 6-digit code
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const hashedCode = await bcrypt.hash(code, 10);
 
-    // Set deadline to 1 hour from now
     const deadLine = new Date();
     deadLine.setHours(deadLine.getHours() + 1);
 
@@ -41,8 +40,7 @@ export class AuthService {
       deadLine: deadLine
     });
 
-    // SIMULATION: Log code for the user to see in dev
-    console.log(`[AUTH] Reset code for ${email}: ${code}`);
+    await emailService.sendPasswordResetCode(email, code);
 
     return { success: true, message: 'Código enviado al correo' };
   }
@@ -55,8 +53,10 @@ export class AuthService {
 
     if (!latestCode) throw new Error('No se encontró un código de recuperación');
 
-    // Check deadline
-    if (new Date() > new Date(latestCode.deadLine)) {
+    const now = new Date();
+    const dbDeadline = new Date(latestCode.deadLine);
+
+    if (now > dbDeadline) {
       throw new Error('El código ha expirado');
     }
 
@@ -73,7 +73,6 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await this.repository.updateUserPassword(user.userId, hashedPassword);
 
-    // Clean up codes
     await this.repository.deleteUserCodes(user.userId);
 
     return { success: true, message: 'Contraseña actualizada con éxito' };

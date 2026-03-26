@@ -18,10 +18,12 @@ export class CatalogController {
         gender: searchParams.get('gender'),
         search: searchParams.get('search'),
         color: searchParams.get('color'),
+        page: searchParams.get('page') ? parseInt(searchParams.get('page')) : 1,
+        limit: searchParams.get('limit') ? parseInt(searchParams.get('limit')) : 12,
       };
 
-      const variants = await this.service.getAllProducts(filters);
-      return NextResponse.json({ success: true, data: variants }, { status: 200 });
+      const result = await this.service.getAllProducts(filters);
+      return NextResponse.json({ success: true, data: result }, { status: 200 });
     } catch (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }

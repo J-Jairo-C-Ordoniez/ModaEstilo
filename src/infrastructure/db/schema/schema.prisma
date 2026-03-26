@@ -62,7 +62,7 @@ model Code {
   codeId    Int      @id @default(autoincrement()) @unique
   code      String   @db.VarChar(255)
   type      CodeType
-  deadLine  DateTime @db.Date
+  deadLine  DateTime
   userId    Int      
   user      User     @relation(fields: [userId], references: [userId])
   createdAt DateTime @default(now())

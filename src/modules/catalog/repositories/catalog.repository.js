@@ -2,7 +2,7 @@ import prisma from '@/infrastructure/db/client';
 
 export class CatalogRepository {
   async getAllProducts(filters = {}) {
-    const { categoryId, gender, search, color } = filters;
+    const { categoryId, gender, search, color, page = 1, limit = 12 } = filters;
 
     const whereClause = { isActive: true };
 
@@ -29,21 +29,38 @@ export class CatalogRepository {
       ];
     }
 
-    return await prisma.variant.findMany({
-      where: whereClause,
-      include: {
-        product: {
-          include: {
-            category: true
-          }
+    const skip = (page - 1) * limit;
+
+    const [variants, total] = await Promise.all([
+      prisma.variant.findMany({
+        where: whereClause,
+        include: {
+          product: {
+            include: {
+              category: true
+            }
+          },
+          images: true,
+          inventories: true
         },
-        images: true,
-        inventories: true
-      },
-      orderBy: {
-        popularity: 'desc'
-      }
-    });
+        orderBy: {
+          popularity: 'desc'
+        },
+        skip,
+        take: limit
+      }),
+      prisma.variant.count({
+        where: whereClause
+      })
+    ]);
+
+    return {
+      items: variants,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit)
+    };
   }
 
   async getColors() {

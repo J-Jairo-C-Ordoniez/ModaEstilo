@@ -5,29 +5,36 @@ const useFilterCatalogStore = create((set, get) => ({
     color: [],
     category: [],
     products: [],
+    page: 1,
+    limit: 12,
+    totalPages: 1,
     isLoading: false,
     error: null,
 
     setGender: (gender) => {
-        set({ gender: gender });
+        set({ gender: gender, page: 1 });
         get().fetchProducts();
     },
 
     setColor: (color) => {
-        set({ color: color });
+        set({ color: color, page: 1 });
         get().fetchProducts();
     },
 
     setCategory: (category) => {
-        console.log(category);
-        set({ category: category });
+        set({ category: category, page: 1 });
+        get().fetchProducts();
+    },
+
+    setPage: (page) => {
+        set({ page: page });
         get().fetchProducts();
     },
 
     fetchProducts: async () => {
         set({ isLoading: true, error: null });
         try {
-            const { category, color, gender } = get();
+            const { category, color, gender, page, limit } = get();
             
             const params = new URLSearchParams();
 
@@ -44,13 +51,20 @@ const useFilterCatalogStore = create((set, get) => ({
                 const activeColors = color.map(c => c.name || c).join(',');
                 params.append('color', activeColors);
             }
+
+            if (page) params.append('page', page);
+            if (limit) params.append('limit', limit);
             
             const url = `/api/catalog?${params.toString()}`;
             const res = await fetch(url);
             const json = await res.json();
             
             if (json.success) {
-                set({ products: json.data, isLoading: false });
+                set({ 
+                    products: json.data.items || [], 
+                    totalPages: json.data.totalPages || 1, 
+                    isLoading: false 
+                });
             } else {
                 set({ error: json.error, isLoading: false });
             }
