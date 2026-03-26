@@ -3,7 +3,12 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    domains: ['cdn11.bigcommerce.com', 'images.unsplash.com', 'res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      }
+    ],
   },
 };
 
