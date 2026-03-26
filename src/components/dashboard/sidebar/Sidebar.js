@@ -33,9 +33,11 @@ export default function Sidebar() {
                 key={item.href}
                 href={item.href}
                 title={item.name}
+                aria-label={item.name}
+                aria-current={isActive ? 'page' : undefined}
                 className={`flex items-center gap-0 lg:gap-3 px-0 lg:px-4 py-3 rounded-lg text-sm font-medium transition-all duration-150 tracking-wider justify-center lg:justify-start ${isActive ? 'bg-secondary/10 text-primary/90' : 'text-secondary/90 hover:text-primary/90'}`}
               >
-                <item.icon className="w-5 h-5 shrink-0" />
+                <item.icon className="w-5 h-5 shrink-0" aria-hidden="true" />
                 <span className="hidden lg:block">{item.name}</span>
                 {isActive &&
                   <span className="hidden lg:block ml-auto h-2 w-2 rounded-full bg-primary/90"></span>
@@ -49,6 +51,7 @@ export default function Sidebar() {
           <Link
             href="/"
             title="Ir a Tienda"
+            aria-label="Ir a Tienda Pública"
             className="border border-secondary/10 w-full flex items-center justify-center lg:block lg:text-center px-0 lg:px-4 py-3 rounded-lg text-sm font-medium transition-all duration-150 tracking-wider text-secondary/90 hover:text-primary/90 hover:bg-secondary/10"
           >
             <span className="hidden lg:block">Ir a Tienda</span>

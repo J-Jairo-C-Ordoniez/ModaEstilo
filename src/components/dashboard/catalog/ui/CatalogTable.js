@@ -40,6 +40,8 @@ export default function CatalogTable({
                                     <td className="rounded-l-xl py-3 px-4 text-center group-hover:bg-primary/5 transition-colors">
                                         <button
                                             onClick={() => onToggleExpand(product.productId)}
+                                            aria-label={expandedProducts[product.productId] ? "Contraer variantes" : "Expandir variantes"}
+                                            aria-expanded={expandedProducts[product.productId]}
                                             className="p-1 rounded cursor-pointer transition-colors text-secondary hover:text-primary"
                                         >
                                             {expandedProducts[product.productId]
@@ -69,6 +71,7 @@ export default function CatalogTable({
                                         <div className="flex justify-end gap-2">
                                             <button
                                                 onClick={() => onAddVariant(product.productId)}
+                                                aria-label="Añadir Variante"
                                                 className="cursor-pointer h-8 w-8 flex items-center justify-center rounded-lg bg-primary/5 text-primary hover:bg-primary/20 transition-all shadow-sm"
                                                 title="Añadir Variante"
                                             >
@@ -76,12 +79,14 @@ export default function CatalogTable({
                                             </button>
                                             <button
                                                 onClick={() => onEditProduct(product)}
+                                                aria-label="Editar Producto"
                                                 className="cursor-pointer h-8 w-8 flex items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-sm"
                                             >
                                                 <Edit2 className="h-4 w-4" />
                                             </button>
                                             <button
                                                 onClick={() => onDeleteProduct(product.productId)}
+                                                aria-label="Eliminar Producto"
                                                 className="cursor-pointer h-8 w-8 flex items-center justify-center rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm"
                                             >
                                                 <Trash2 className="h-4 w-4" />
@@ -135,14 +140,16 @@ export default function CatalogTable({
                                                                         <div className="flex-1"></div>
                                                                         <div className="flex gap-1">
                                                                             <button onClick={() => onEditVariant(product.productId, v)}
+                                                                                aria-label={`Editar variante ${v.name}`}
                                                                                 className="h-7 w-7 flex items-center justify-center rounded-lg text-secondary hover:text-primary hover:bg-primary/10 transition-colors"
                                                                             >
-                                                                                <Edit2 className="h-3.5 w-3.5" />
+                                                                                <Edit2 className="h-3.5 w-3.5" aria-hidden="true" />
                                                                             </button>
                                                                             <button onClick={() => onDeleteVariant(v.variantId)}
+                                                                                aria-label={`Eliminar variante ${v.name}`}
                                                                                 className="h-7 w-7 flex items-center justify-center rounded-lg text-secondary hover:text-red-500 hover:bg-red-500/10 transition-colors"
                                                                             >
-                                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                                                <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
                                                                             </button>
                                                                         </div>
                                                                     </div>

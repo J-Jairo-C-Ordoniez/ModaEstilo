@@ -47,10 +47,11 @@ export default function ForgotPasswordMain() {
                             </p>
                             <form onSubmit={handleRequestCode} className="space-y-6">
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-semibold tracking-wider text-primary/90">
+                                    <label htmlFor="email" className="block text-sm font-semibold tracking-wider text-primary/90">
                                         Correo Electrónico
                                     </label>
                                     <input
+                                        id="email"
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
@@ -88,10 +89,11 @@ export default function ForgotPasswordMain() {
                             </p>
                             <form onSubmit={handleVerifyCode} className="space-y-6">
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-semibold tracking-wider text-primary/90">
+                                    <label htmlFor="code" className="block text-sm font-semibold tracking-wider text-primary/90">
                                         Código de Verificación
                                     </label>
                                     <input
+                                        id="code"
                                         type="text"
                                         value={code}
                                         onChange={(e) => setCode(e.target.value)}
@@ -127,10 +129,11 @@ export default function ForgotPasswordMain() {
                             </h2>
                             <form onSubmit={handleResetPassword} className="space-y-6">
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-semibold tracking-wider text-primary/90">
+                                    <label htmlFor="new_password" className="block text-sm font-semibold tracking-wider text-primary/90">
                                         Nueva Contraseña
                                     </label>
                                     <input
+                                        id="new_password"
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
@@ -140,10 +143,11 @@ export default function ForgotPasswordMain() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-semibold tracking-wider text-primary/90">
+                                    <label htmlFor="confirmPassword" className="block text-sm font-semibold tracking-wider text-primary/90">
                                         Confirmar Contraseña
                                     </label>
                                     <input
+                                        id="confirmPassword"
                                         type="password"
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}

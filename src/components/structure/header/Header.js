@@ -21,7 +21,7 @@ export default function Header() {
         />
 
         <div className="absolute left-1/2 -translate-x-1/2 text-center">
-          <Link href="/" className="text-sm md:text-base font-semibold tracking-widest text-primary whitespace-nowrap">
+          <Link href="/" aria-label="Inicio, Moda y Estilo" className="text-sm md:text-base font-semibold tracking-widest text-primary whitespace-nowrap">
             <span className="hidden sm:inline">MODA Y ESTILO</span>
             <span className="sm:hidden">M & E</span>
           </Link>

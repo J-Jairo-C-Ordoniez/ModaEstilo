@@ -36,9 +36,11 @@ export default function InventoryTable({ products, expandedProducts, onToggleExp
                                         <td className="rounded-l-xl py-3 px-4 group-hover:bg-primary/5 transition-colors text-center">
                                             <button
                                                 onClick={() => onToggleExpand(product.productId)}
+                                                aria-label={isExpanded ? "Contraer inventario" : "Expandir inventario"}
+                                                aria-expanded={isExpanded}
                                                 className="p-1 rounded cursor-pointer transition-colors text-secondary hover:text-primary"
                                             >
-                                                {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                                                {isExpanded ? <ChevronUp className="h-4 w-4" aria-hidden="true" /> : <ChevronDown className="h-4 w-4" aria-hidden="true" />}
                                             </button>
                                         </td>
                                         <td className="py-3 px-4 group-hover:bg-primary/5 transition-colors text-left">

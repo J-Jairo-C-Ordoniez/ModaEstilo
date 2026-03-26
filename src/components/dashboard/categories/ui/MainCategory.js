@@ -47,17 +47,19 @@ export default function MainCategory({ handleOpenModal, categories, handleDelete
                                     <div className="flex justify-end gap-2">
                                         <button
                                             onClick={() => handleOpenModal(cat)}
+                                            aria-label={`Editar categoría ${cat.name}`}
                                             className="cursor-pointer inline-flex items-center justify-center h-8 w-8 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-sm group/btn"
                                             title="Editar"
                                         >
-                                            <Edit2 className="h-4 w-4" />
+                                            <Edit2 className="h-4 w-4" aria-hidden="true" />
                                         </button>
                                         <button
                                             onClick={() => handleDelete(cat.categoryId)}
+                                            aria-label={`Eliminar categoría ${cat.name}`}
                                             className="cursor-pointer h-8 w-8 flex items-center justify-center rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm group/btn-danger"
                                             title="Eliminar"
                                         >
-                                            <Trash2 className="h-4 w-4" />
+                                            <Trash2 className="h-4 w-4" aria-hidden="true" />
                                         </button>
                                     </div>
                                 </td>

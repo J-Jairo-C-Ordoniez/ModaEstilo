@@ -10,12 +10,14 @@ export function Pagination() {
   return (
     <div className="w-full flex justify-center items-center gap-4 mt-24 mb-10 text-xs font-bold tracking-widest text-gray-500 uppercase">
       {pages.map((p) => (
-        <span
+        <button
           key={p}
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             setPage(p);
           }}
+          aria-label={`Página ${p}`}
+          aria-current={p === page ? 'page' : undefined}
           className={`w-6 h-6 flex items-center justify-center rounded-full transition-colors cursor-pointer ${
             p === page 
               ? 'bg-black text-white hover:bg-gray-800' 
@@ -23,7 +25,7 @@ export function Pagination() {
           }`}
         >
           {p}
-        </span>
+        </button>
       ))}
       
       {page < totalPages && (
@@ -32,9 +34,10 @@ export function Pagination() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             setPage(page + 1);
           }}
+          aria-label="Página Siguiente"
           className="ml-4 hover:text-black transition-colors flex items-center gap-1 cursor-pointer"
         >
-          SIGUIENTE <span className="text-xs sm:text-xs">&gt;</span>
+          SIGUIENTE <span aria-hidden="true" className="text-xs sm:text-xs">&gt;</span>
         </button>
       )}
     </div>
