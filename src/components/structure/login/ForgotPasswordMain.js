@@ -1,102 +1,32 @@
 "use client";
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from '../main/ui/Breadcrumbs';
+import { useForgotPassword } from '@/hooks/useForgotPassword';
 
 export default function ForgotPasswordMain() {
     const { breadcrumbs, setBreadcrumbsRoute } = useBreadcrumbsStore();
     const router = useRouter();
 
-    const [step, setStep] = useState('EMAIL'); // EMAIL, CODE, NEW_PASSWORD, SUCCESS
-    const [email, setEmail] = useState('');
-    const [code, setCode] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const {
+        step, setStep,
+        email, setEmail,
+        code, setCode,
+        password, setPassword,
+        confirmPassword, setConfirmPassword,
+        error,
+        loading,
+        handleRequestCode,
+        handleVerifyCode,
+        handleResetPassword
+    } = useForgotPassword();
 
     useEffect(() => {
         setBreadcrumbsRoute("olvidó su contraseña");
     }, [setBreadcrumbsRoute]);
-
-    const handleRequestCode = async (e) => {
-        e.preventDefault();
-        setError('');
-        setLoading(true);
-
-        try {
-            const res = await fetch('/api/auth/forgot-password/request', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
-            });
-            const data = await res.json();
-            if (data.success) {
-                setStep('CODE');
-            } else {
-                setError(data.message || 'Error al solicitar el código');
-            }
-        } catch (err) {
-            setError('Error de conexión');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleVerifyCode = async (e) => {
-        e.preventDefault();
-        setError('');
-        setLoading(true);
-
-        try {
-            const res = await fetch('/api/auth/forgot-password/verify', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, code }),
-            });
-            const data = await res.json();
-            if (data.success) {
-                setStep('NEW_PASSWORD');
-            } else {
-                setError(data.message || 'Código inválido');
-            }
-        } catch (err) {
-            setError('Error de conexión');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleResetPassword = async (e) => {
-        e.preventDefault();
-        setError('');
-        if (password !== confirmPassword) {
-            setError('Las contraseñas no coinciden');
-            return;
-        }
-        setLoading(true);
-
-        try {
-            const res = await fetch('/api/auth/forgot-password/reset', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-            const data = await res.json();
-            if (data.success) {
-                setStep('SUCCESS');
-            } else {
-                setError(data.message || 'Error al restablecer la contraseña');
-            }
-        } catch (err) {
-            setError('Error de conexión');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <main className="bg-background w-full">

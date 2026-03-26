@@ -1,41 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "../main/ui/Breadcrumbs";
 import PolicyContent from "./ui/PolicyContent";
+import { usePublicData } from "@/hooks/usePublicData";
 
 export default function PoliciesMain() {
   const { breadcrumbs, setBreadcrumbsRoute } = useBreadcrumbsStore();
-  const [policyData, setPolicyData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: policyData, isLoading, error } = usePublicData("/api/policies");
 
   useEffect(() => {
     setBreadcrumbsRoute("políticas y privacidad");
   }, [setBreadcrumbsRoute]);
-
-  useEffect(() => {
-    const fetchPolicyData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch("/api/policies");
-        const result = await response.json();
-
-        if (result.success) {
-          setPolicyData(result.data);
-        } else {
-          setError(result.message || "Error al cargar las políticas");
-        }
-      } catch (err) {
-        setError("Error de conexión con el servidor");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPolicyData();
-  }, []);
 
   return (
     <main className="bg-background w-full min-h-screen">

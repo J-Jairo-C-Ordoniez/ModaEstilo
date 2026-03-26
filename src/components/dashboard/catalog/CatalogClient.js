@@ -9,13 +9,22 @@ import VariantForm from './ui/VariantForm';
 import Modal from '../categories/ui/Modal';
 import ActionDialog from '../categories/ui/ActionDialog';
 import Header from '../main/ui/Header';
+import { useCatalog } from '@/hooks/useCatalog';
 
 export default function CatalogClient() {
-    const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [submitting, setSubmitting] = useState(false);
-    const [error, setError] = useState('');
+    const {
+        products,
+        categories,
+        isLoading: loading,
+        error,
+        isSaving: submitting,
+        fetchCatalogData: fetchData,
+        saveProduct,
+        deleteProduct,
+        saveVariant,
+        deleteVariant
+    } = useCatalog();
+
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedProducts, setExpandedProducts] = useState({});
     const [productModal, setProductModal] = useState({ isOpen: false, editingProduct: null });
@@ -25,29 +34,9 @@ export default function CatalogClient() {
 
     const searchParams = useSearchParams();
 
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const [productsRes, categoriesRes] = await Promise.all([
-                fetch('/api/catalog?action=dashboard'),
-                fetch('/api/catalog?action=categories')
-            ]);
-
-            const productsJson = await productsRes.json();
-            const categoriesJson = await categoriesRes.json();
-
-            if (productsJson.success) setProducts(productsJson.data);
-            if (categoriesJson.success) setCategories(categoriesJson.data);
-        } catch (err) {
-            setError('Error al cargar datos del catálogo');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     useEffect(() => {
         const variantId = searchParams.get('variantId');
@@ -76,30 +65,11 @@ export default function CatalogClient() {
     };
 
     const handleProductSubmit = async (data) => {
-        setSubmitting(true);
-        try {
-            const url = productModal.editingProduct
-                ? `/api/catalog/products/${productModal.editingProduct.productId}`
-                : '/api/catalog/products';
-            const method = productModal.editingProduct ? 'PATCH' : 'POST';
-
-            const res = await fetch(url, {
-                method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const json = await res.json();
-
-            if (json.success) {
-                setProductModal({ isOpen: false, editingProduct: null });
-                fetchData();
-            } else {
-                setAlertConfig({ isOpen: true, title: 'Error', message: json.error, variant: 'danger' });
-            }
-        } catch (err) {
-            setAlertConfig({ isOpen: true, title: 'Error', message: 'Error de conexión', variant: 'danger' });
-        } finally {
-            setSubmitting(false);
+        const result = await saveProduct(data, productModal.editingProduct);
+        if (result.success) {
+            setProductModal({ isOpen: false, editingProduct: null });
+        } else {
+            setAlertConfig({ isOpen: true, title: 'Error', message: result.error, variant: 'danger' });
         }
     };
 
@@ -114,13 +84,9 @@ export default function CatalogClient() {
 
     const executeDeleteProduct = async (productId) => {
         setConfirmConfig(prev => ({ ...prev, isOpen: false }));
-        try {
-            const res = await fetch(`/api/catalog/products/${productId}`, { method: 'DELETE' });
-            const json = await res.json();
-            if (json.success) fetchData();
-            else setAlertConfig({ isOpen: true, title: 'Error', message: json.error, variant: 'danger' });
-        } catch (err) {
-            setAlertConfig({ isOpen: true, title: 'Error', message: 'Error de conexión', variant: 'danger' });
+        const result = await deleteProduct(productId);
+        if (!result.success) {
+            setAlertConfig({ isOpen: true, title: 'Error', message: result.error, variant: 'danger' });
         }
     };
 
@@ -129,32 +95,11 @@ export default function CatalogClient() {
     };
 
     const handleVariantSubmit = async (data) => {
-        setSubmitting(true);
-        try {
-            const url = variantModal.editingVariant
-                ? `/api/catalog/variants/${variantModal.editingVariant.variantId}`
-                : '/api/catalog/variants';
-            const method = variantModal.editingVariant ? 'PATCH' : 'POST';
-
-            if (!variantModal.editingVariant) data.productId = variantModal.productId;
-
-            const res = await fetch(url, {
-                method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const json = await res.json();
-
-            if (json.success) {
-                setVariantModal({ isOpen: false, editingVariant: null, productId: null });
-                fetchData();
-            } else {
-                setAlertConfig({ isOpen: true, title: 'Error', message: json.error, variant: 'danger' });
-            }
-        } catch (err) {
-            setAlertConfig({ isOpen: true, title: 'Error', message: 'Error de conexión', variant: 'danger' });
-        } finally {
-            setSubmitting(false);
+        const result = await saveVariant(data, variantModal.editingVariant, variantModal.productId);
+        if (result.success) {
+            setVariantModal({ isOpen: false, editingVariant: null, productId: null });
+        } else {
+            setAlertConfig({ isOpen: true, title: 'Error', message: result.error, variant: 'danger' });
         }
     };
 
@@ -169,13 +114,9 @@ export default function CatalogClient() {
 
     const executeDeleteVariant = async (variantId) => {
         setConfirmConfig(prev => ({ ...prev, isOpen: false }));
-        try {
-            const res = await fetch(`/api/catalog/variants/${variantId}`, { method: 'DELETE' });
-            const json = await res.json();
-            if (json.success) fetchData();
-            else setAlertConfig({ isOpen: true, title: 'Error', message: json.error, variant: 'danger' });
-        } catch (err) {
-            setAlertConfig({ isOpen: true, title: 'Error', message: 'Error de conexión', variant: 'danger' });
+        const result = await deleteVariant(variantId);
+        if (!result.success) {
+            setAlertConfig({ isOpen: true, title: 'Error', message: result.error, variant: 'danger' });
         }
     };
 

@@ -1,83 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Header from '../main/ui/Header';
 import MainSettings from './ui/mainSettings';
+import { useSettings } from '@/hooks/useSettings';
 
 export default function SettingsPage() {
-    const [aboutUs, setAboutUs] = useState(null);
-    const [policy, setPolicy] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const {
+        aboutUs,
+        policy,
+        isLoading,
+        error,
+        fetchSettingsData,
+        savePolicyAction,
+        saveAboutUsAction
+    } = useSettings();
 
     useEffect(() => {
-        const fetchAboutData = async () => {
-            try {
-                setIsLoading(true);
-                const [aboutResponse, policyResponse] = await Promise.all([
-                    fetch("/api/about"),
-                    fetch("/api/policies")
-                ]);
-
-                const aboutResult = await aboutResponse.json();
-                const policyResult = await policyResponse.json();
-
-                if (aboutResult.success) {
-                    setAboutUs(aboutResult.data);
-                } else {
-                    setError(aboutResult.message || "Error al cargar la información");
-                }
-
-                if (policyResult.success) {
-                    setPolicy(policyResult.data);
-                } else {
-                    setError(policyResult.message || "Error al cargar la información");
-                }
-            } catch (err) {
-                setError("Error de conexión con el servidor");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchAboutData();
-    }, []);
-
-    const savePolicyAction = async (data) => {
-        try {
-            const res = await fetch("/api/policies", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            const result = await res.json();
-            return result;
-        } catch (err) {
-            return { error: "Error de conexión con el servidor" };
-        }
-    };
-
-    const saveAboutUsAction = async (data) => {
-        try {
-            const res = await fetch("/api/about", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            const result = await res.json();
-            return result;
-        } catch (err) {
-            return { error: "Error de conexión con el servidor" };
-        }
-    };
+        fetchSettingsData();
+    }, [fetchSettingsData]);
 
     if (isLoading || error) {
         return (
             <main className="h-full flex-1 flex justify-center py-20">
                 <p className="animate-pulse text-md font-medium tracking-wider text-secondary">
-                    {error ? "Error al cargar la información" : "Cargando información..."}
+                    {error ? error : "Cargando información..."}
                 </p>
             </main>
         );

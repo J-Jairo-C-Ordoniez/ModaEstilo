@@ -5,36 +5,28 @@ import { useSearchParams } from 'next/navigation';
 import Header from '../main/ui/Header';
 import InventoryHeader from './ui/InventoryHeader';
 import InventoryTable from './ui/InventoryTable';
+import { useInventory } from '@/hooks/useInventory';
 
 export default function InventoryClient() {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const {
+        products,
+        isLoading: loading,
+        loadingId,
+        fetchInventory,
+        updateStock
+    } = useInventory();
+
     const [searchTerm, setSearchTerm] = useState('');
-    const [loadingId, setLoadingId] = useState(null);
     const [expandedProducts, setExpandedProducts] = useState({});
     const searchParams = useSearchParams();
 
-    const fetchInventory = async () => {
-        setLoading(true);
-        try {
-            const res = await fetch('/api/inventory');
-            const json = await res.json();
-            if (json.success) setProducts(json.data);
-        } catch (error) {
-            console.error('Error fetching inventory:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
         fetchInventory();
-    }, []);
+    }, [fetchInventory]);
 
     useEffect(() => {
         const variantId = searchParams.get('variantId');
         if (variantId && products.length > 0) {
-            // Find which product this variant belongs to and expand it
             const product = products.find(p => p.variants.some(v => v.variantId.toString() === variantId));
             if (product) {
                 setExpandedProducts(prev => ({ ...prev, [product.productId]: true }));
@@ -42,7 +34,11 @@ export default function InventoryClient() {
                     const element = document.getElementById(`inventory-row-${variantId}`);
                     if (element) {
                         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        element.classList.add('animate-highlight-brief');
+                        // Replaced arbitrary CSS animation with Tailwind classes
+                        element.classList.add('bg-black/5', 'ring-2', 'ring-black', 'transition-all', 'duration-500');
+                        setTimeout(() => {
+                            element.classList.remove('bg-black/5', 'ring-2', 'ring-black');
+                        }, 2000);
                     }
                 }, 400);
             }
@@ -54,23 +50,9 @@ export default function InventoryClient() {
     };
 
     const handleUpdateStock = async (variantId, newStock) => {
-        setLoadingId(variantId);
-        try {
-            const res = await fetch('/api/inventory', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ variantId, stock: parseInt(newStock) })
-            });
-            const json = await res.json();
-            if (json.success) {
-                fetchInventory();
-            } else {
-                alert(json.error || 'Error al actualizar stock');
-            }
-        } catch (error) {
-            alert('Error de conexión');
-        } finally {
-            setLoadingId(null);
+        const result = await updateStock(variantId, newStock);
+        if (!result.success) {
+            alert(result.error);
         }
     };
 
@@ -94,18 +76,6 @@ export default function InventoryClient() {
 
     return (
         <main className="h-full flex-1 overflow-y-auto transition-all duration-300 px-4 sm:px-6 lg:px-8 pt-4 pb-10">
-            <style jsx global>{`
-                @keyframes highlight-brief {
-                    0% { background-color: transparent; }
-                    50% { background-color: rgba(var(--dash-primary-rgb), 0.1); }
-                    100% { background-color: transparent; }
-                }
-                .animate-highlight-brief {
-                    animation: highlight-brief 2s ease-out 2;
-                    border: 1px solid var(--dash-primary) !important;
-                }
-            `}</style>
-            
             <div className="container mx-auto space-y-8 pt-2">
                 <Header 
                     title="Inventario" 

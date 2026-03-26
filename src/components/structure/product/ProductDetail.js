@@ -1,57 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "../main/ui/Breadcrumbs";
 import ProductInfo from "./ui/ProductInfo";
 import ProductImg from "./ui/ProductImg";
+import { useProductDetail } from "@/hooks/useProductDetail";
 
 export default function ProductDetail({ variantId }) {
   const { breadcrumbs, setBreadcrumbsRoute, setBreadcrumbsProduct } = useBreadcrumbsStore();
-  const [data, setData] = useState(null);
-  const [contact, setContact] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const [selectedVariant, setSelectedVariant] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const res = await fetch(`/api/catalog/variants/${variantId}`);
-        const result = await res.json();
-
-        if (result.success) {
-          setData(result.data);
-          setSelectedVariant(result.data);
-
-          const variant = result.data;
-          const product = variant.product;
-          setBreadcrumbsProduct(
-            product.gender === 'hombre' ? 'hombre' : 'mujer',
-            product.name,
-            variant.name
-          );
-        } else {
-          setError(result.message || "Producto no encontrado");
-        }
-
-        const contactRes = await fetch("/api/contact");
-        const contactResult = await contactRes.json();
-        if (contactResult.success) {
-          setContact(contactResult.data.contact);
-        }
-      } catch (err) {
-        setError("Error de conexión");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [variantId, setBreadcrumbsProduct]);
-
+  
+  const {
+    data,
+    contact,
+    isLoading,
+    error,
+    selectedVariant,
+    setSelectedVariant
+  } = useProductDetail(variantId, setBreadcrumbsProduct);
 
   return (
     <main className="bg-background w-full min-h-screen">

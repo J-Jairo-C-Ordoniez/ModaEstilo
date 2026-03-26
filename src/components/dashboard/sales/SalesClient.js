@@ -7,79 +7,46 @@ import SalesHeader from './ui/SalesHeader';
 import SalesTable from './ui/SalesTable';
 import SaleForm from './ui/SaleForm';
 import ActionDialog from '../categories/ui/ActionDialog';
+import { useSales } from '@/hooks/useSales';
 
 export default function SalesClient() {
-    const [sales, setSales] = useState([]);
-    const [variants, setVariants] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [submitting, setSubmitting] = useState(false);
+    const {
+        sales,
+        variants,
+        isLoading: loading,
+        isSaving: submitting,
+        fetchSalesData: fetchData,
+        saveSale
+    } = useSales();
+
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alertConfig, setAlertConfig] = useState({ isOpen: false, title: '', message: '', variant: 'primary', type: 'alert' });
 
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const [salesRes, variantsRes] = await Promise.all([
-                fetch('/api/sales'),
-                fetch('/api/sales?action=variants')
-            ]);
-            
-            const salesJson = await salesRes.json();
-            const variantsJson = await variantsRes.json();
-
-            if (salesJson.success) setSales(salesJson.data);
-            if (variantsJson.success) setVariants(variantsJson.data);
-        } catch (err) {
-            console.error('Error fetching sales data:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     const handleSaleSubmit = async (data) => {
-        setSubmitting(true);
-        try {
-            const res = await fetch('/api/sales', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+        const result = await saveSale(data);
+        
+        if (result.success) {
+            setIsModalOpen(false);
+            setAlertConfig({ 
+                isOpen: true, 
+                title: 'Éxito', 
+                message: 'Venta registrada correctamente e inventario actualizado.', 
+                variant: 'success',
+                type: 'success'
             });
-            const json = await res.json();
-
-            if (json.success) {
-                setIsModalOpen(false);
-                fetchData();
-                setAlertConfig({ 
-                    isOpen: true, 
-                    title: 'Éxito', 
-                    message: 'Venta registrada correctamente e inventario actualizado.', 
-                    variant: 'success',
-                    type: 'success'
-                });
-            } else {
-                setAlertConfig({ 
-                    isOpen: true, 
-                    title: 'Error', 
-                    message: json.error || 'No se pudo registrar la venta', 
-                    variant: 'danger',
-                    type: 'alert'
-                });
-            }
-        } catch (err) {
+        } else {
             setAlertConfig({ 
                 isOpen: true, 
                 title: 'Error', 
-                message: 'Error de conexión al servidor', 
+                message: result.error, 
                 variant: 'danger',
                 type: 'alert'
             });
-        } finally {
-            setSubmitting(false);
         }
     };
 

@@ -1,41 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "../main/ui/Breadcrumbs";
 import ContactContent from "./ui/ContactContent";
+import { usePublicData } from "@/hooks/usePublicData";
 
 export default function ContactMain() {
   const { breadcrumbs, setBreadcrumbsRoute } = useBreadcrumbsStore();
-  const [contact, setContact] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, error } = usePublicData("/api/contact");
+  const contact = data?.contact || null;
 
   useEffect(() => {
     setBreadcrumbsRoute("contacto");
   }, [setBreadcrumbsRoute]);
-
-  useEffect(() => {
-    const fetchContactData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch("/api/contact");
-        const result = await response.json();
-
-        if (result.success) {
-          setContact(result.data.contact);
-        } else {
-          setError(result.message || "Error al cargar el contacto");
-        }
-      } catch (err) {
-        setError("Error de conexión");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchContactData();
-  }, []);
 
   return (
     <main className="bg-background w-full min-h-screen overflow-x-hidden">

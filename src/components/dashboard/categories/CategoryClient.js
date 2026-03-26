@@ -7,37 +7,30 @@ import MainCategory from './ui/MainCategory';
 import Modal from './ui/Modal';
 import CategoryForm from './ui/CategoryForm';
 import ActionDialog from './ui/ActionDialog';
+import { useCategories } from '@/hooks/useCategories';
 
 export default function CategoryClient() {
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+  const {
+    categories,
+    isLoading,
+    error,
+    setError,
+    isSaving: submitting,
+    fetchCategories,
+    saveCategory,
+    deleteCategory
+  } = useCategories();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalAlertOpen, setIsModalAlertOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [name, setName] = useState('');
-  const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [confirmConfig, setConfirmConfig] = useState({ isOpen: false, title: '', message: '', onConfirm: null });
   const [alertConfig, setAlertConfig] = useState({ isOpen: false, title: '', message: '', variant: 'primary' });
 
-  const fetchCategories = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/categories');
-      const json = await response.json();
-      if (json.success) setCategories(json.data);
-      else setError('Error al cargar categorías');
-    } catch (err) {
-      setError('Error de conexión');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [fetchCategories]);
 
   const handleOpenModal = (category = null) => {
     setEditingCategory(category);
@@ -58,30 +51,13 @@ export default function CategoryClient() {
     const currentName = forcedName !== null ? forcedName : name;
     
     if (!currentName.trim()) { setError('El nombre es requerido'); return; }
-    setSubmitting(true);
-    setError('');
 
-    try {
-      const url = editingCategory ? `/api/categories/${editingCategory.categoryId}` : '/api/categories';
-      const method = editingCategory ? 'PATCH' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: currentName })
-      });
-
-      const json = await response.json();
-      if (json.success) {
-        handleCloseModal();
-        fetchCategories();
-      } else {
-        setError(json.error || 'Error al guardar');
-      }
-    } catch (err) {
-      setError('Error de conexión al guardar');
-    } finally {
-      setSubmitting(false);
+    const result = await saveCategory(currentName, editingCategory);
+    
+    if (result.success) {
+      handleCloseModal();
+    } else {
+      setError(result.error);
     }
   };
 
@@ -96,24 +72,13 @@ export default function CategoryClient() {
 
   const executeDelete = async (categoryId) => {
     setConfirmConfig(prev => ({ ...prev, isOpen: false }));
-    try {
-      const response = await fetch(`/api/categories/${categoryId}`, { method: 'DELETE' });
-      const json = await response.json();
-      if (json.success) {
-        fetchCategories();
-      } else {
-        setAlertConfig({
-          isOpen: true,
-          title: 'Error',
-          message: json.error || 'Error al eliminar la categoría',
-          variant: 'danger'
-        });
-      }
-    } catch (err) {
+    const result = await deleteCategory(categoryId);
+    
+    if (!result.success) {
       setAlertConfig({
         isOpen: true,
-        title: 'Error de conexión',
-        message: 'No se pudo conectar con el servidor para eliminar la categoría',
+        title: 'Error',
+        message: result.error,
         variant: 'danger'
       });
     }

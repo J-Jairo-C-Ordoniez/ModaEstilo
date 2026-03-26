@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSearch } from "@/hooks/useSearch";
 import useBreadcrumbsStore from "../../../store/breadcrumbs.store";
 import Breadcrumbs from "../main/ui/Breadcrumbs";
 import SearchInitial from "./ui/SearchInitial";
@@ -10,60 +10,19 @@ import { X } from "lucide-react";
 
 export default function SearchMain() {
   const { breadcrumbs, setBreadcrumbsRoute } = useBreadcrumbsStore();
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-  const [popular, setPopular] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
+  const {
+    query,
+    setQuery,
+    results,
+    popular,
+    isLoading,
+    hasSearched,
+    clearSearch
+  } = useSearch();
 
   useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const popRes = await fetch("/api/catalog?action=popular&limit=4");
-        const popData = await popRes.json();
-        if (popData.success) setPopular(popData.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchInitialData();
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (query.trim() === "") {
-        setResults([]);
-        setHasSearched(false);
-        return;
-      }
-
-      const fetchResults = async () => {
-        setIsLoading(true);
-        try {
-          const res = await fetch(`/api/catalog?search=${query}`);
-          const data = await res.json();
-          if (data.success) {
-            setResults(data.data);
-            setHasSearched(true);
-          }
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchResults();
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [query]);
-
-  const clearSearch = () => {
-    setQuery("");
-    setResults([]);
-    setHasSearched(false);
-  };
+    setBreadcrumbsRoute("buscar");
+  }, [setBreadcrumbsRoute]);
 
   return (
     <main className="bg-background w-full min-h-screen">
