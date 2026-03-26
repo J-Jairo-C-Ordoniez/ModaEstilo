@@ -30,8 +30,9 @@ export class AboutUsController {
         }
     }
 
-    async updateAboutUs(data) {
+    async updateAboutUs(req) {
         try {
+            const data = await req.json();
             const updatedAboutUs = await this.service.updateAboutUs(data);
             return NextResponse.json({ success: true, data: updatedAboutUs }, { status: 200 });
         } catch (error) {

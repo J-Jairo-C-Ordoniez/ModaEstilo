@@ -58,6 +58,21 @@ export default function SettingsPage() {
         }
     };
 
+    const saveAboutUsAction = async (data) => {
+        try {
+            const res = await fetch("/api/about", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const result = await res.json();
+            return result;
+        } catch (err) {
+            return { error: "Error de conexión con el servidor" };
+        }
+    };
+
     if (isLoading || error) {
         return (
             <main className="h-full flex-1 flex justify-center py-20">
@@ -80,6 +95,7 @@ export default function SettingsPage() {
                     initialAboutUs={aboutUs} 
                     initialPolicy={policy} 
                     savePolicyAction={savePolicyAction}
+                    saveAboutUsAction={saveAboutUsAction}
                 />
             </div>
         </main>

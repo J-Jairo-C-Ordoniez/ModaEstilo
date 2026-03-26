@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CldUploadWidget } from 'next-cloudinary';
-import { Save, Upload, Image as ImageIcon, AlignLeft, Smartphone } from 'lucide-react';
+import UploadSection from './UploadSection';
+import { Save, AlignLeft, Smartphone } from 'lucide-react';
 
 export default function AboutForm({ initialData, saveAction, onNotify }) {
   const [loading, setLoading] = useState(false);
@@ -28,72 +28,64 @@ export default function AboutForm({ initialData, saveAction, onNotify }) {
       .map(p => p.trim())
       .filter(p => p.length > 0);
 
-    const result = await saveAction({ ...formData, content: contentArray });
+    const result = await saveAction({ ...formData, content: contentArray, aboutId: initialData?.aboutId });
     onNotify(result.error ? 'error' : 'success', result.error || 'Información actualizada');
     setLoading(false);
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-8 space-y-10 text-left animate-in fade-in duration-500">
-      {/* Header con estilo Minimal */}
-      <header className="border-b border-primary/5 pb-6">
-        <h3 className="text-xl font-bold text-primary tracking-tight">Identidad del Negocio</h3>
-        <p className="text-sm text-secondary/60 mt-1">Configura la presencia visual y narrativa de tu marca.</p>
+      <header className="border-b border-primary/5 pb-4">
+        <div className="flex flex-col items-start gap-1">
+          <h3 className="text-lg font-bold tracking-wider text-primary/90">Identidad del Negocio</h3>
+          <p className="text-md text-secondary tracking-wider">Configura la presencia visual y narrativa de tu marca.</p>
+        </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-
-        {/* COLUMNA IZQUIERDA: Configuración y Texto */}
-        <div className="lg:col-span-7 space-y-8">
-
-          {/* Input de Contacto */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="lg:col-span-2 space-y-8">
           <div className="space-y-3">
             <div className="flex items-center gap-2 ml-1">
-              <Smartphone className="h-4 w-4 text-secondary/40" />
-              <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">WhatsApp de Contacto</label>
+              <Smartphone className="h-4 w-4 text-secondary" />
+              <label className="text-xs font-bold uppercase tracking-wider text-secondary">WhatsApp de Contacto</label>
             </div>
             <input
               type="text"
               placeholder="Ej: 310..."
-              className="w-full bg-primary/5 border border-primary/10 rounded-2xl px-5 py-4 text-sm text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-secondary/30"
+              className="text-primary/80 tracking-wider w-full border border-secondary/10 p-3 rounded-sm placeholder:text-secondary/60 focus:outline-none focus:border-secondary/60 transition-colors"
               value={formData.contact}
               onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
             />
           </div>
 
-          {/* Editor de Historia */}
           <div className="space-y-3">
             <div className="flex items-center gap-2 ml-1">
-              <AlignLeft className="h-4 w-4 text-secondary/40" />
-              <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Nuestra Historia / Contenido</label>
+              <AlignLeft className="h-4 w-4 text-secondary" />
+              <label className="text-xs font-bold uppercase tracking-wider text-secondary">Nuestra Historia / Contenido</label>
             </div>
             <textarea
               rows={10}
               placeholder="Escribe los párrafos de tu marca aquí..."
-              className="w-full bg-primary/5 border border-primary/10 rounded-xl p-6 text-sm leading-relaxed text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none shadow-inner"
+              className="text-primary/80 tracking-wider w-full border border-secondary/10 p-3 rounded-sm placeholder:text-secondary/60 focus:outline-none focus:border-secondary/60 transition-colors"
               value={textParagraphs}
               onChange={(e) => setTextParagraphs(e.target.value)}
             />
             <div className="flex justify-between px-2">
-              <p className="text-[9px] text-secondary/40 italic uppercase tracking-wider">Un salto de línea = Un párrafo nuevo</p>
-              <p className="text-[9px] text-primary/40 font-bold uppercase tracking-widest">{textParagraphs.split('\n').filter(p => p.trim()).length} Párrafos</p>
+              <p className="text-xs text-secondary/80 italic uppercase tracking-wider">Un salto de línea = Un párrafo nuevo</p>
+              <p className="text-xs text-primary/90 font-bold uppercase tracking-widest">{textParagraphs.split('\n').filter(p => p.trim()).length} Párrafos</p>
             </div>
           </div>
         </div>
 
-        {/* COLUMNA DERECHA: Imágenes (El corazón visual) */}
-        <div className="lg:col-span-5 space-y-8">
-
-          {/* Logo Section */}
+        <div className="lg:col-span-2 space-y-8">
           <UploadSection
             label="Logo de Marca"
             value={formData.logo}
             preset="landing"
-            aspect="aspect-square"
+            aspect="aspect-auto"
             onSuccess={(url) => setFormData({ ...formData, logo: url })}
           />
 
-          {/* Portada Section */}
           <UploadSection
             label="Imagen de Portada / Banner"
             value={formData.photo}
@@ -101,11 +93,9 @@ export default function AboutForm({ initialData, saveAction, onNotify }) {
             aspect="aspect-video"
             onSuccess={(url) => setFormData({ ...formData, photo: url })}
           />
-
         </div>
       </div>
 
-      {/* Footer de Acción */}
       <div className="pt-6 border-t border-primary/5 flex justify-end">
         <button
           type="submit"
@@ -123,53 +113,5 @@ export default function AboutForm({ initialData, saveAction, onNotify }) {
         </button>
       </div>
     </form>
-  );
-}
-
-/**
- * Sub-componente para los bloques de carga de imagen.
- * Prioriza la visualización de la imagen sobre el botón.
- */
-function UploadSection({ label, value, preset, onSuccess, aspect }) {
-  return (
-    <div className="space-y-3">
-      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary ml-1">{label}</label>
-
-      <div className={`relative group w-full ${aspect} bg-primary/5 border-2 border-dashed border-primary/10 rounded-xl overflow-hidden transition-all hover:border-primary/30 shadow-sm`}>
-
-        {/* Preview de la imagen (Grande) */}
-        {value ? (
-          <img
-            src={value}
-            alt="Preview"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-secondary/30">
-            <ImageIcon className="h-10 w-10 mb-2 stroke-[1px]" />
-            <span className="text-[10px] font-medium tracking-tighter uppercase">Sin archivo seleccionado</span>
-          </div>
-        )}
-
-        {/* Overlay del botón (Solo aparece al hacer hover o si no hay imagen) */}
-        <div className={`absolute inset-0 bg-primary/90 flex flex-col items-center justify-center transition-all duration-300 ${value ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
-          <CldUploadWidget
-            uploadPreset={preset}
-            onSuccess={(result) => onSuccess(result.info.secure_url)}
-          >
-            {({ open }) => (
-              <button
-                type="button"
-                onClick={() => open()}
-                className="bg-foreground text-primary px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-2xl transform transition-transform active:scale-90"
-              >
-                {value ? 'Reemplazar Imagen' : 'Subir Archivo'}
-              </button>
-            )}
-          </CldUploadWidget>
-          <p className="text-[8px] text-foreground/50 mt-4 uppercase font-bold tracking-tighter">Cloudinary Secure Upload</p>
-        </div>
-      </div>
-    </div>
   );
 }
