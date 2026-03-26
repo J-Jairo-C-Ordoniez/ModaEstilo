@@ -9,7 +9,7 @@ export async function GET(req) {
   const action = searchParams.get('action');
 
   if (action === 'variants') {
-    return catalogController.getProducts(req);
+    return catalogController.getAllVariants(req);
   }
 
   return salesController.getSales();

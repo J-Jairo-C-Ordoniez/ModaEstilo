@@ -67,6 +67,15 @@ export class CatalogController {
     }
   }
 
+  async getAllVariants(req) {
+    try {
+      const variants = await this.variantService.getAllVariants();
+      return NextResponse.json({ success: true, data: variants }, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+  }
+
   async getVariantById(req, id) {
     try {
       const variant = await this.service.getVariantById(id);
