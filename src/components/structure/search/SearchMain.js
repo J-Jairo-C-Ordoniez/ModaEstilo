@@ -20,10 +20,6 @@ export default function SearchMain() {
     clearSearch
   } = useSearch();
 
-  useEffect(() => {
-    setBreadcrumbsRoute("buscar");
-  }, [setBreadcrumbsRoute]);
-
   return (
     <main className="bg-background w-full min-h-screen">
       <div className="container mx-auto p-4 md:p-8 flex flex-col">

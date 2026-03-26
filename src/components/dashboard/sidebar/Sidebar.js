@@ -17,11 +17,12 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="h-full w-1/6 flex flex-col pt-4 transition-all duration-300 border-r border-secondary/10">
+    <aside className="h-full w-16 lg:w-1/6 flex flex-col pt-4 transition-all duration-300 border-r border-secondary/10 shrink-0">
       <div className='container mx-auto px-1 md:px-2 flex flex-col h-full'>
-        <article className="space-y-2 py-5 px-3 overflow-y-auto">
-          <h3 className="text-primary/90 text-xs tracking-wider font-semibold uppercase mb-4">
-            Navegación
+        <article className="space-y-2 py-5 px-1 lg:px-3 overflow-y-auto overflow-x-hidden">
+          <h3 className="text-primary/90 text-[10px] lg:text-xs tracking-wider font-semibold uppercase mb-4 text-center lg:text-left">
+            <span className="hidden lg:inline">Navegación</span>
+            <span className="lg:hidden">Menú</span>
           </h3>
 
           {navItems.map((item) => {
@@ -31,12 +32,13 @@ export default function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-150 tracking-wider ${isActive ? 'bg-secondary/10 text-primary/90' : 'text-secondary/90 hover:text-primary/90'}`}
+                title={item.name}
+                className={`flex items-center gap-0 lg:gap-3 px-0 lg:px-4 py-3 rounded-lg text-sm font-medium transition-all duration-150 tracking-wider justify-center lg:justify-start ${isActive ? 'bg-secondary/10 text-primary/90' : 'text-secondary/90 hover:text-primary/90'}`}
               >
-                <item.icon width={18} height={18} />
-                {item.name}
+                <item.icon className="w-5 h-5 shrink-0" />
+                <span className="hidden lg:block">{item.name}</span>
                 {isActive &&
-                  <span className="ml-auto h-2 w-2 rounded-full bg-primary/90"></span>
+                  <span className="hidden lg:block ml-auto h-2 w-2 rounded-full bg-primary/90"></span>
                 }
               </Link>
             );
@@ -46,9 +48,11 @@ export default function Sidebar() {
         <div className="py-4 mt-auto border-t border-secondary/10">
           <Link
             href="/"
-            className="border border-secondary/10 w-full block text-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-150 tracking-wider text-secondary/90 hover:text-primary/90 hover:bg-secondary/10"
+            title="Ir a Tienda"
+            className="border border-secondary/10 w-full flex items-center justify-center lg:block lg:text-center px-0 lg:px-4 py-3 rounded-lg text-sm font-medium transition-all duration-150 tracking-wider text-secondary/90 hover:text-primary/90 hover:bg-secondary/10"
           >
-            Ir a Tienda
+            <span className="hidden lg:block">Ir a Tienda</span>
+            <span className="lg:hidden font-bold">T</span>
           </Link>
         </div>
       </div>

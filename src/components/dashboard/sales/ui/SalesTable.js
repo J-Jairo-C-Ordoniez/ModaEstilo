@@ -3,7 +3,7 @@ import React from 'react';
 export default function SalesTable({ sales }) {
     return (
         <section className="overflow-x-auto -mx-2 mt-6">
-            <table className="w-full text-left border-separate border-spacing-y-2">
+            <table className="w-full min-w-[800px] lg:min-w-full text-left border-separate border-spacing-y-2">
                 <thead>
                     <tr className="text-xs font-semibold uppercase text-secondary tracking-widest text-center">
                         <th className="pb-2 px-4 border-b border-primary/10 text-left">Referencia</th>

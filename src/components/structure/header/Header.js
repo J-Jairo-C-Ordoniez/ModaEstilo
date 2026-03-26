@@ -20,9 +20,10 @@ export default function Header() {
           setGender={setGender}
         />
 
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <Link href="/" className="text-md font-semibold tracking-widest text-primary">
-            MODA Y ESTILO
+        <div className="absolute left-1/2 -translate-x-1/2 text-center">
+          <Link href="/" className="text-sm md:text-base font-semibold tracking-widest text-primary whitespace-nowrap">
+            <span className="hidden sm:inline">MODA Y ESTILO</span>
+            <span className="sm:hidden">M & E</span>
           </Link>
         </div>
 

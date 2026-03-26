@@ -6,7 +6,7 @@ export default function TopProducts({ products }) {
     if (!products || products.length === 0) {
         return (
             <article className="rounded-xl p-6 flex flex-col gap-3 relative overflow-hidden bg-foreground border-b-2 border-primary/10">
-                <div className="container">
+                <div className="w-full">
                     <h3 className="text-primary/80 leading-relaxed text-sm tracking-wider font-semibold uppercase">Productos Top 5</h3>
                     <p className="text-secondary leading-relaxed text-sm tracking-wider font-light mb-8">Variantes por popularidad</p>
                     <div className="flex justify-center py-20">
@@ -21,12 +21,12 @@ export default function TopProducts({ products }) {
 
     return (
         <article className="rounded-xl p-6 h-full flex flex-col gap-3 relative overflow-hidden bg-foreground border-b-2 border-primary/10">
-            <div className="container">
+            <div className="w-full">
                 <h3 className="text-primary/80 leading-relaxed text-sm tracking-wider font-semibold uppercase">Productos Top 5</h3>
                 <p className="text-secondary leading-relaxed text-sm tracking-wider font-light pb-3 mb-3 border-b border-secondary/10">Variantes por popularidad</p>
 
                 <div className="overflow-x-auto -mx-2">
-                    <table className="w-full text-left border-separate border-spacing-y-2">
+                    <table className="w-full min-w-[600px] lg:min-w-full text-left border-separate border-spacing-y-2">
                         <thead>
                             <tr className="text-xs font-semibold uppercase text-secondary tracking-widest">
                                 <th className="pb-2 px-4 w-12 text-center">ID</th>

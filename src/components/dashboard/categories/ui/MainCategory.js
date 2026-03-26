@@ -7,7 +7,7 @@ export default function MainCategory({ handleOpenModal, categories, handleDelete
 
     return (
         <section className="overflow-x-auto -mx-2 mt-6">
-            <table className="w-full text-left border-separate border-spacing-y-2">
+            <table className="w-full min-w-[600px] lg:min-w-full text-left border-separate border-spacing-y-2">
                 <thead>
                     <tr className="text-xs font-semibold uppercase text-secondary tracking-widest text-center">
                         <th className="pb-2 px-4 w-12 text-center border-b border-primary/10">ID</th>

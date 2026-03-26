@@ -34,7 +34,7 @@ export function useSearch() {
           const res = await fetch(`/api/catalog?search=${query}`);
           const data = await res.json();
           if (data.success) {
-            setResults(data.data);
+            setResults(Array.isArray(data.data) ? data.data : data.data.items || []);
             setHasSearched(true);
           }
         } catch (error) {

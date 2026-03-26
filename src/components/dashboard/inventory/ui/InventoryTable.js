@@ -4,7 +4,7 @@ import { AlertCircle, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react'
 export default function InventoryTable({ products, expandedProducts, onToggleExpand, loadingId, onUpdateStock }) {
     return (
         <section className="overflow-x-auto -mx-2 mt-6">
-            <table className="w-full text-left border-separate border-spacing-y-2">
+            <table className="w-full min-w-[800px] lg:min-w-full text-left border-separate border-spacing-y-2">
                 <thead>
                     <tr className="text-xs font-semibold uppercase text-secondary tracking-widest text-center">
                         <th className="pb-2 px-4 w-12 border-b border-primary/10"></th>
@@ -77,7 +77,7 @@ export default function InventoryTable({ products, expandedProducts, onToggleExp
                                         <tr>
                                             <td colSpan="6" className="p-0">
                                                 <div className="bg-primary/5 rounded-xl border border-primary/10 my-2 overflow-hidden">
-                                                    <table className="w-full text-left border-collapse">
+                                                    <table className="w-full min-w-[600px] lg:min-w-full text-left border-collapse">
                                                         <thead className="bg-secondary/5">
                                                             <tr className="text-[10px] font-bold uppercase tracking-widest text-secondary/70">
                                                                 <th className="py-2 px-8">Variante</th>

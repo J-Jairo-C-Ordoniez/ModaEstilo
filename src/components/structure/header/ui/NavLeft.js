@@ -13,7 +13,7 @@ export default function NavLeft({ breadcrumbs, setBreadcrumbsRoute, setGender })
     };
 
     return (
-        <nav className="flex items-center gap-6 text-xs font-semibold tracking-wider text-gray-500">
+        <nav className="flex items-center gap-3 md:gap-6 text-xs font-semibold tracking-wider text-gray-500">
             <button
                 onClick={() => handleGenderClick("mujer")}
                 className={breadcrumbs[1].label.toUpperCase() === "MUJER" ? "text-primary transition-colors cursor-pointer" : "text-secondary/90 hover:text-primary transition-colors cursor-pointer"}>

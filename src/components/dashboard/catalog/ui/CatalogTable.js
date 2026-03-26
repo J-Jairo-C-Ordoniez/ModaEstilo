@@ -13,7 +13,7 @@ export default function CatalogTable({
 }) {
     return (
         <section className="overflow-x-auto -mx-2 mt-2">
-            <table className="w-full text-left border-separate border-spacing-y-2">
+            <table className="w-full min-w-[800px] lg:min-w-full text-left border-separate border-spacing-y-2">
                 <thead>
                     <tr className="text-xs font-semibold uppercase text-secondary tracking-widest text-center">
                         <th className="pb-2 px-4 w-12 text-center border-b border-primary/10"></th>
@@ -99,7 +99,13 @@ export default function CatalogTable({
                                                     Variantes del producto
                                                 </h4>
                                                 {product.variants.length === 0 ? (
-                                                    <p className="text-sm text-secondary italic">No hay variantes registradas.</p>
+                                                    <table className="w-full min-w-[600px] lg:min-w-full text-left border-collapse">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td className="text-sm text-secondary italic py-2">No hay variantes registradas.</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 ) : (
                                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                                         {product.variants.map((v) => (

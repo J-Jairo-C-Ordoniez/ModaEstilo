@@ -1,7 +1,7 @@
 export default function StatCard({ title, value, sub, icon: Icon }) {
     return (
         <article className="rounded-xl p-6 flex flex-col gap-3 relative overflow-hidden bg-foreground border-b-2 border-primary/10">
-            <div className="container flex items-start justify-between">
+            <div className="flex items-start justify-between w-full">
                 <div>
                     <p className="text-primary/80 leading-relaxed text-sm tracking-wider font-medium uppercase">
                         {title}

@@ -7,8 +7,8 @@ export default function LowStock({ items }) {
     if (!items || items.length === 0) {
         return (
             <article className="rounded-xl p-6 flex flex-col gap-3 relative overflow-hidden bg-foreground border-b-2 border-primary/10">
-                <div className="container">
-                    <h3 className="text-primary/80 leading-relaxed text-sm tracking-wider font-semibold uppercase">Inventario Bajo</h3>
+                <div className="w-full">
+                    <h3 className="text-primary/80 leading-relaxed text-sm tracking-wider font-semibold uppercase">Alerta de Inventario Bajo</h3>
                     <p className="text-secondary leading-relaxed text-sm tracking-wider font-light pb-3 mb-3 border-b border-secondary/10">Revisión crítica de existencias</p>
                     <div className="text-center py-6 flex flex-col items-center gap-2">
                         <div className="h-10 w-10 rounded-full flex items-center justify-center bg-primary/10">
