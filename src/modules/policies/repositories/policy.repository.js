@@ -12,4 +12,19 @@ export class PolicyRepository {
       throw new Error(`Error en PolicyRepository: ${error.message}`);
     }
   }
+
+  async updatePolicy(content) {
+    try {
+      return await prisma.policy.update({
+        where: {
+          policyId: content.policyId
+        },
+        data: {
+          content: content.content
+        }
+      });
+    } catch (error) {
+      throw new Error(`Error en PolicyRepository: ${error.message}`);
+    }
+  }
 }

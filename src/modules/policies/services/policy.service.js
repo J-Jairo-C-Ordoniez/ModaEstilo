@@ -16,4 +16,13 @@ export class PolicyService {
       throw new Error(`Error en PolicyService: ${error.message}`);
     }
   }
+
+  async updatePolicy(content) {
+    try {
+      const data = await this.repository.updatePolicy(content);
+      return data;
+    } catch (error) {
+      throw new Error(`Error en PolicyService: ${error.message}`);
+    }
+  }
 }

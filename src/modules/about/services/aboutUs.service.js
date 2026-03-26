@@ -24,4 +24,12 @@ export class AboutUsService {
       throw new Error(`Error en AboutUsService al obtener contacto: ${error.message}`);
     }
   }
+
+  async updateAboutUs(data) {
+    try {
+      return await this.repository.updateAboutUs(data);
+    } catch (error) {
+      throw new Error(`Error en AboutUsService al actualizar: ${error.message}`);
+    }
+  }
 }

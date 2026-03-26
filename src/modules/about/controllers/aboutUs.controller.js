@@ -29,4 +29,13 @@ export class AboutUsController {
             return NextResponse.json({ success: false, error: error.message }, { status: 500 });
         }
     }
+
+    async updateAboutUs(data) {
+        try {
+            const updatedAboutUs = await this.service.updateAboutUs(data);
+            return NextResponse.json({ success: true, data: updatedAboutUs }, { status: 200 });
+        } catch (error) {
+            return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        }
+    }
 }

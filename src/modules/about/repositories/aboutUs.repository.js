@@ -28,4 +28,15 @@ export class AboutUsRepository {
       throw new Error(`Error en AboutUsRepository al obtener contacto: ${error.message}`);
     }
   }
+
+  async updateAboutUs(data) {
+    try {
+      return await prisma.aboutUs.update({
+        where: { aboutId: data.aboutId },
+        data: data
+      });
+    } catch (error) {
+      throw new Error(`Error en AboutUsRepository al actualizar: ${error.message}`);
+    }
+  }
 }
