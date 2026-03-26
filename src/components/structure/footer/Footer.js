@@ -14,6 +14,9 @@ export default function Footer() {
           Contacto
         </Link>
       </div>
+      <div className="text-secondary/40 tracking-wider container mx-auto p-4 md:p-8 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
+        <p className="text-xs md:text-base">© {new Date().getFullYear()} Moda y Estilo. Todos los derechos reservados.</p>
+      </div>
     </footer>
   );
 }
