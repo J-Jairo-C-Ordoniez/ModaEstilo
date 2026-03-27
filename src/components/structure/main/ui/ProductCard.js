@@ -39,7 +39,7 @@ export function ProductCard({ product }) {
     ) : (
       <article className="flex flex-col group animate-pulse duration-1000">
         <div className={`aspect-4/6 w-full mb-4 relative overflow-hidden bg-foreground flex items-center justify-center`}>
-          <div className={`w-3/4 h-[60%] ${Math.random() > 0.5 ? 'bg-primary' : 'bg-secondary'} rounded-md shadow-sm group-hover:scale-105 transition-transform duration-500 ease-out`} />
+          <div className={`w-3/4 h-[60%] bg-secondary rounded-md shadow-sm group-hover:scale-105 transition-transform duration-500 ease-out`} />
         </div>
       </article>
     )

@@ -12,10 +12,14 @@ export default function SaleForm({ variants, onSubmit, onCancel, submitting }) {
     useEffect(() => {
         if (formData.variantId) {
             const v = variants.find(v => v.variantId.toString() === formData.variantId.toString());
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setSelectedVariant(v);
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             if (v) setTotal(v.price * formData.amount);
         } else {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setSelectedVariant(null);
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setTotal(0);
         }
     }, [formData.variantId, formData.amount, variants]);

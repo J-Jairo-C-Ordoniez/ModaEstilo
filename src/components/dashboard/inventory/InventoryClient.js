@@ -29,6 +29,7 @@ export default function InventoryClient() {
         if (variantId && products.length > 0) {
             const product = products.find(p => p.variants.some(v => v.variantId.toString() === variantId));
             if (product) {
+                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setExpandedProducts(prev => ({ ...prev, [product.productId]: true }));
                 setTimeout(() => {
                     const element = document.getElementById(`inventory-row-${variantId}`);

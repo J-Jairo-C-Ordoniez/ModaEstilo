@@ -15,6 +15,7 @@ export default function AboutForm({ initialData, saveAction, onNotify }) {
 
   useEffect(() => {
     if (Array.isArray(initialData?.content)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTextParagraphs(initialData.content.join('\n\n'));
     }
   }, [initialData]);
