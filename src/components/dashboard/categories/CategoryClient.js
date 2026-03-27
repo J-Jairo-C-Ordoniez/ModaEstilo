@@ -49,11 +49,11 @@ export default function CategoryClient() {
   const handleSubmit = async (e, forcedName = null) => {
     if (e) e.preventDefault();
     const currentName = forcedName !== null ? forcedName : name;
-    
+
     if (!currentName.trim()) { setError('El nombre es requerido'); return; }
 
     const result = await saveCategory(currentName, editingCategory);
-    
+
     if (result.success) {
       handleCloseModal();
     } else {
@@ -73,7 +73,7 @@ export default function CategoryClient() {
   const executeDelete = async (categoryId) => {
     setConfirmConfig(prev => ({ ...prev, isOpen: false }));
     const result = await deleteCategory(categoryId);
-    
+
     if (!result.success) {
       setAlertConfig({
         isOpen: true,
@@ -84,6 +84,16 @@ export default function CategoryClient() {
     }
   };
 
+  if (isLoading && categories.length === 0) {
+    return (
+      <main className="h-full flex-1 flex justify-center py-20">
+        <p className="animate-pulse text-md font-medium tracking-wider text-secondary">
+          Cargando categorías...
+        </p>
+      </main>
+    );
+  }
+
   return (
     <main className="h-full flex-1 overflow-y-auto transition-all duration-300 px-4 sm:px-6 lg:px-8 pt-4 pb-10">
       <div className="container mx-auto space-y-8 pt-2">
@@ -92,26 +102,10 @@ export default function CategoryClient() {
           description="Administración de categorías de productos."
         />
 
-        {isLoading && (
-          <div className="flex justify-center py-20">
-            <p className="animate-pulse text-md font-medium tracking-wider text-secondary">
-              Cargando...
-            </p>
-          </div>
-        )}
-
         {!isLoading && error && (
           <div className="flex justify-center py-20">
             <p className="text-md font-medium tracking-wider text-secondary">
               Ha ocurrido un error, intenta de nuevo
-            </p>
-          </div>
-        )}
-
-        {!isLoading && !error && categories.length === 0 && (
-          <div className="flex justify-center py-20">
-            <p className="text-md font-medium tracking-wider text-secondary">
-              No hay categorías disponibles.
             </p>
           </div>
         )}
@@ -143,7 +137,7 @@ export default function CategoryClient() {
                   initialName={name}
                   onSubmit={(newName) => {
                     setName(newName);
-                    const dummyEvent = { preventDefault: () => {} };
+                    const dummyEvent = { preventDefault: () => { } };
                     handleSubmit(dummyEvent, newName);
                   }}
                   onCancel={handleCloseModal}
