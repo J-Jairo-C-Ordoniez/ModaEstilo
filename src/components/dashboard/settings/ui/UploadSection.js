@@ -25,7 +25,6 @@ export default function UploadSection({ label, value, preset, onSuccess, aspect 
                     </div>
                 )}
 
-                {/* Overlay del botón (Solo aparece al hacer hover o si no hay imagen) */}
                 <div className={`absolute inset-0 bg-primary/90 flex flex-col items-center justify-center transition-all duration-300 ${value ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
                     <CldUploadWidget
                         uploadPreset={preset}
